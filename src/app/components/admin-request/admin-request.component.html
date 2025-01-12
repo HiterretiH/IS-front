@@ -1,0 +1,24 @@
+<app-header></app-header>
+
+<div id="form-container">
+  <div id="input-card" class="ui-widget">
+    <h1>Запрос на админ доступ</h1>
+    
+    <p *ngIf="!isRequestSent">Если вы хотите стать администратором, отправьте запрос на получение админ прав.</p>
+
+    <button *ngIf="!isRequestSent" (click)="sendAdminRequest()">Отправить запрос</button>
+    
+    <!-- Сообщение об успехе -->
+    <p *ngIf="isRequestSent" class="success-message">
+      Ваш запрос на получение админ прав был успешно отправлен!
+    </p>
+
+    <!-- Сообщение об ошибке -->
+    <p *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </p>
+
+    <!-- Кнопка для перенаправления на главную страницу -->
+    <button *ngIf="isRequestSent" (click)="navigateToHome()">Перейти на главную</button>
+  </div>
+</div>

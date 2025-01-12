@@ -1,0 +1,22 @@
+<div id="header" class="ui-widget">
+    <div class="align-left">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Главная</a>
+        <a routerLink="/create-coordinates" routerLinkActive="active" class="nav-link">Создать координаты</a>
+        <a routerLink="/create-location" routerLinkActive="active" class="nav-link">Создать локацию</a>
+        <a routerLink="/create-address" routerLinkActive="active" class="nav-link">Создать адресс</a>
+        <a routerLink="/create-organization" routerLinkActive="active" class="nav-link">Создать организацию</a>
+      <!-- <a routerLink="/search" routerLinkActive="active" class="nav-link">Поиск</a> -->
+    </div>
+  
+    <div class="align-right">
+      <span *ngIf="isLoggedIn()" class="username">{{ username }}</span>
+      <a *ngIf="isAdmin()" routerLink="/admin" routerLinkActive="active" class="nav-link">
+        Панель администратора
+      </a>
+      <a *ngIf="!isAdmin()" routerLink="/admin-request" routerLinkActive="active" class="nav-link">
+        Запросить админ-доступ
+      </a>
+      <p-button *ngIf="isLoggedIn()" (onClick)="logOut()" label="Выйти" icon="pi pi-sign-out" iconPos="right" [outlined]="true" size="small"></p-button>
+    </div>
+  </div>
+  

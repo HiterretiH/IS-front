@@ -1,0 +1,102 @@
+<app-header></app-header>
+
+<app-nav></app-nav>
+
+<p-toast></p-toast>
+
+<p-card header="Create New Worker">
+  <form [formGroup]="creationForm" (ngSubmit)="onSubmit()">
+    <div class="p-fluid">
+      <div class="field">
+        <label for="id">ID</label>
+        <input pInputText id="id" formControlName="id" type="number" />
+      </div>
+
+      <div class="field">
+        <label for="name">Name</label>
+        <input pInputText id="name" formControlName="name" />
+      </div>
+
+      <div class="field">
+        <label for="owner">Owner</label>
+        <input pInputText id="owner" formControlName="owner" />
+      </div>
+
+      <fieldset>
+        <legend>Coordinates</legend>
+        <div class="field">
+          <label for="x">X</label>
+          <input pInputText id="x" formControlName="x" type="number" />
+        </div>
+        <div class="field">
+          <label for="y">Y</label>
+          <input pInputText id="y" formControlName="y" type="number" />
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="creationDate">Creation Date</label>
+        <p-calendar id="creationDate" formControlName="creationDate"></p-calendar>
+      </div>
+
+      <fieldset>
+        <legend>Organization</legend>
+        <div class="field">
+          <label for="organizationId">Organization ID</label>
+          <input pInputText id="organizationId" formControlName="id" type="number" />
+        </div>
+        <div class="field">
+          <label for="organizationRating">Rating</label>
+          <input pInputText id="organizationRating" formControlName="rating" type="number" />
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <label for="salary">Salary</label>
+        <input pInputText id="salary" formControlName="salary" type="number" />
+      </div>
+
+      <div class="field">
+        <label for="rating">Rating</label>
+        <input pInputText id="rating" formControlName="rating" type="number" />
+      </div>
+
+      <div class="field">
+        <label for="startDate">Start Date</label>
+        <p-calendar id="startDate" formControlName="startDate"></p-calendar>
+      </div>
+
+      <div class="field">
+        <label for="endDate">End Date</label>
+        <p-calendar id="endDate" formControlName="endDate"></p-calendar>
+      </div>
+
+      <div class="field">
+        <label for="position">Position</label>
+        <p-dropdown [options]="positions" id="position" formControlName="position"></p-dropdown>
+      </div>
+
+      <fieldset>
+        <legend>Person</legend>
+        <div class="field">
+          <label for="personId">ID</label>
+          <input pInputText id="personId" formControlName="id" type="number" />
+        </div>
+        <div class="field">
+          <label for="height">Height</label>
+          <input pInputText id="height" formControlName="height" type="number" />
+        </div>
+        <div class="field">
+          <label for="weight">Weight</label>
+          <input pInputText id="weight" formControlName="weight" type="number" />
+        </div>
+        <div class="field">
+          <label for="passportID">Passport ID</label>
+          <input pInputText id="passportID" formControlName="passportID" />
+        </div>
+      </fieldset>
+    </div>
+
+    <button pButton type="submit" label="Отправить"></button>
+  </form>
+</p-card>

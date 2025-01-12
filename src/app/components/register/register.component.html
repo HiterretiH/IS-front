@@ -1,0 +1,35 @@
+<app-header></app-header>
+
+<div id="register-container">
+  <p-card id="register-card" header="Регистрация">
+      <div>
+        Уже зарегистрированы? <a routerLink="/login" routerLinkActive="active">Войдите здесь</a>
+      </div>
+
+      <p-divider></p-divider>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="input-container">
+          <label for="username">Имя пользователя:</label>
+          <input type="text" [pTooltip]="usernameToolTip" tooltipEvent="focus" pInputText class="p-inputtext-sm" id="username" formControlName="username" />
+        </div>
+        <div class="input-container">
+          <label for="password">Пароль:</label>
+          <p-password formControlName="password" [pTooltip]="passwordToolTip" tooltipEvent="focus" class="p-inputtext-sm" [feedback]="false" [toggleMask]="true"></p-password>
+        </div>
+        <div class="input-container">
+          <label for="password">Повторите пароль:</label>
+          <p-password formControlName="confirmPassword" [pTooltip]="confirmToolTip" tooltipEvent="focus" class="p-inputtext-sm" [feedback]="false" [toggleMask]="true"></p-password>
+        </div>
+
+        <div *ngIf="conflict" class="error-message">
+          Пользователь с данным именем уже существует
+        </div>
+
+        <div *ngIf="error" class="error-message">
+          Ошибка регистрации. Проверьте введенные данные
+        </div>
+
+      <p-button type="submit" label="Регистрация"></p-button>
+    </form>
+  </p-card>
+</div>

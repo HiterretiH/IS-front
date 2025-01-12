@@ -1,0 +1,26 @@
+<app-header></app-header>
+
+<div id="login-container">
+  <p-card id="login-card" header="Войти">
+    <div>
+      Не зарегистрированы? <a routerLink="/register" routerLinkActive="active">Создайте аккаунт</a>
+    </div>
+    <p-divider></p-divider>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="input-container">
+        <label for="username-input">Имя пользователя:</label>
+        <input pInputText type="text" class="p-inputtext-sm" id="username-input" formControlName="username" />
+      </div>
+      <div class="input-container">
+        <label for="password-input">Пароль:</label>
+        <p-password id="password-input" formControlName="password" class="p-inputtext-sm" [feedback]="false" [toggleMask]="true"></p-password>
+      </div>
+
+      <div *ngIf="loginError" class="error-message">
+        Ошибка входа. Проверьте данные
+      </div>
+
+      <p-button type="submit" label="Войти"></p-button>
+    </form>
+  </p-card>
+</div>

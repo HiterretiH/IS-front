@@ -1,0 +1,72 @@
+<!-- create-organization.component.html -->
+<app-header></app-header>
+
+<h2>Create Organization</h2>
+
+<form [formGroup]="organizationForm" (ngSubmit)="onSubmit()">
+    <div class="p-field">
+        <label for="name">Name</label>
+        <input id="name" type="text" pInputText formControlName="name" />
+        <small *ngIf="organizationForm.controls['name'].invalid && organizationForm.controls['name'].touched">
+            Name is required.
+        </small>
+    </div>
+
+    <div class="p-field">
+        <label for="officialAddress">Official Address</label>
+        <select id="officialAddress" formControlName="officialAddress">
+            <option *ngFor="let address of addresses" [value]="address.id">
+                {{ address.street }}
+            </option>
+        </select>
+    </div>
+
+    <div class="p-field">
+        <label for="postalAddress">Postal Address</label>
+        <select id="postalAddress" formControlName="postalAddress">
+            <option *ngFor="let address of addresses" [value]="address.id">
+                {{ address.street }}
+            </option>
+        </select>
+    </div>
+
+    <div class="p-field">
+        <label for="coordinates">Coordinates</label>
+        <select id="coordinates" formControlName="coordinates">
+            <option *ngFor="let coord of coordinatesList" [value]="coord.id">
+                ({{ coord.x }}, {{ coord.y }})
+            </option>
+        </select>
+    </div>
+
+    <div class="p-field">
+        <label for="type">Organization Type</label>
+        <select id="type" formControlName="type">
+            <option *ngFor="let type of organizationTypes" [value]="type">
+                {{ type }}
+            </option>
+        </select>
+    </div>
+
+    <div class="p-field">
+        <label for="employeesCount">Employees Count</label>
+        <input id="employeesCount" type="number" formControlName="employeesCount" />
+    </div>
+
+    <div class="p-field">
+        <label for="rating">Rating</label>
+        <input id="rating" type="number" step="0.1" formControlName="rating" />
+    </div>
+
+    <div class="p-field">
+        <label for="annualTurnover">Annual Turnover</label>
+        <input id="annualTurnover" type="number" formControlName="annualTurnover" />
+    </div>
+
+    <div class="p-field">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" formControlName="fullName" />
+    </div>
+
+    <button type="submit" [disabled]="organizationForm.invalid">Create</button>
+</form>

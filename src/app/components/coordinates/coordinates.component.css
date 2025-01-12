@@ -1,0 +1,19 @@
+.p-field {
+    margin-bottom: 1rem;
+}
+
+.simple-button {
+    width: auto; /* Размер кнопки будет зависеть от содержимого */
+    height: auto; /* Аналогично ширине */
+    padding: 0.5rem; /* Отступы внутри кнопки */
+    background-color: #007bff; /* Синий фон */
+    color: #ffffff; /* Белый текст */
+    border: none; /* Убираем границы */
+    text-align: center; /* Текст по центру */
+    cursor: pointer; /* Курсор в виде указателя */
+}
+
+.simple-button:hover {
+    background-color: #0056b3; /* Более темный цвет при наведении */
+}
+

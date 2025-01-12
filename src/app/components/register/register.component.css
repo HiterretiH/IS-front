@@ -1,0 +1,33 @@
+#register-card {
+    margin: 3em;
+    text-align: center;
+    width: min-content;
+}
+
+#register-container {
+    margin: 2em auto;
+    text-align: center;
+    width: max-content;
+}
+
+.input-container {
+    margin: 1em;
+}
+
+label {
+    text-align: left;
+}
+
+:host ::ng-deep .p-password-input, input {
+    margin: 0 auto;
+    width: 30em;
+}
+
+input, label{
+    display: block;
+}
+
+.error-message {
+    color: #E53935;
+    margin: 1em;
+}

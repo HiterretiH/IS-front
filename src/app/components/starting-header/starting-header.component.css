@@ -1,0 +1,26 @@
+#header {
+  background-color: var(--surface-0);
+  padding: 0.5em;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  display: flex;
+}
+
+.align-left {
+  text-align: left;
+  width: 33.33%;
+}
+
+.align-center {
+  text-align: center;
+  width: 33.33%;
+}
+
+.align-right {
+  text-align: right;
+  width: 33.33%;
+}
+
+#header ::ng-deep .p-dropdown-item {
+  text-align: left;
+}
