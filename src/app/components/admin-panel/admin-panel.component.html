@@ -1,3 +1,71 @@
 <app-header></app-header>
 
-<p>admin-panel works!</p>
+<p-confirmDialog />
+
+<div class="admin-panel-container">
+  <span class="filter-buttons">
+    <div *ngIf="this.showPendingOnly">
+      <p-button 
+        label="Все заявки" 
+        class="p-button-text" 
+        (click)="showPendingOnly = false; loadRequests()"
+        [class.active]="!showPendingOnly">
+      </p-button>
+      <p-button 
+        [disabled]="true"
+        label="Входящие заявки" 
+        class="p-button-text" 
+        (click)="showPendingOnly = true; loadRequests()"
+        [class.active]="showPendingOnly">
+      </p-button>
+    </div>
+  </span>
+  <span *ngIf="!this.showPendingOnly">
+    <p-button 
+      [disabled]="true"
+      label="Все заявки" 
+      (click)="showPendingOnly = false; loadRequests()"
+      [class.active]="!showPendingOnly">
+    </p-button>
+    <p-button 
+      label="Входящие заявки" 
+      (click)="showPendingOnly = true; loadRequests()"
+      [class.active]="showPendingOnly">
+    </p-button>
+  </span>
+
+  <p-table [value]="requests" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'" [style]="{ 'width': '100%' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Пользовавтель</th>
+        <th>Статус</th>
+        <th>Время</th>
+        <th>Действия</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+      <tr>
+        <td>{{ request.operator.username }}</td>
+        <td>{{ request.status }}</td>
+        <td>
+          {{ request.createdAt[0] }}.{{ request.createdAt[1] < 10 ? '0' + request.createdAt[1] : request.createdAt[1] }}.{{ request.createdAt[2] < 10 ? '0' + request.createdAt[2] : request.createdAt[2] }} 
+          {{ request.createdAt[3] < 10 ? '0' + request.createdAt[3] : request.createdAt[3] }}:{{ request.createdAt[4] < 10 ? '0' + request.createdAt[4] : request.createdAt[4] }}
+        </td>
+        <td>
+          <p-button 
+            *ngIf="request.status === 'PENDING'" 
+            severity="success"
+            icon="pi pi-check" 
+            (click)="approveRequest(request)">
+          </p-button>
+          <p-button 
+            *ngIf="request.status === 'PENDING'" 
+            severity="danger"
+            icon="pi pi-times" 
+            (click)="rejectRequest(request)">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

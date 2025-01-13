@@ -29,6 +29,10 @@ export class HeaderComponent {
     return this.authService.isLoggedIn();
   }
 
+  isPending(): boolean {
+    return this.authService.isPending();
+  }
+
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }

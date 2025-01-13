@@ -30,8 +30,12 @@ export class AuthService {
     });
   }
 
+  isPending(): boolean {
+    return this.role == "PENDING";
+  }
+
   isAdmin(): boolean {
-    return this.role == "ADMIN";
+    return this.role == "MANAGER";
   }
 
   isLoggedIn(): boolean {
@@ -42,6 +46,21 @@ export class AuthService {
     this.username = "";
     this.token = "";
     this.role = "";
+  }
+
+  updateRole(): void {
+    this.updateToken();
+    this.http.get<Token>(
+      `${environment.apiUrl}/users/me`,
+      { headers: this.headers }
+    ).subscribe({
+      next: (res) => {
+        this.auth(this.username, this.token, res.role);
+      },
+      error: (err) => {
+        console.error('Failed to fetch operator request:', err);
+      }
+    });
   }
 
   login (username: string, password: string): Observable<string> {

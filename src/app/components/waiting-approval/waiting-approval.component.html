@@ -1,0 +1,19 @@
+<app-header></app-header>
+
+<div id="container">
+  <div *ngIf="this.pending" class="ui-widget">
+    <h1>Вы запросили доступ</h1>
+
+    Ожидайте, пока модератор обработает ваш запрос.
+  </div>
+
+  <div *ngIf="this.accepted" class="ui-widget">
+    <h1>Запрос подтвержден</h1>
+
+    Вы можете перейти в основное приложение.
+  </div>
+
+  <div *ngIf="this.rejected" class="ui-widget">
+    <h1>Запрос отклонен.</h1>
+  </div>
+</div>

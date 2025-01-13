@@ -1,0 +1,20 @@
+.admin-panel-container {
+  padding: 16px;
+}
+
+.filter-buttons {
+  margin-bottom: 16px;
+}
+
+.filter-buttons button {
+  margin-right: 8px;
+}
+
+.filter-buttons button.active {
+  font-weight: bold;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+p-button {
+  margin: 1%;
+}
