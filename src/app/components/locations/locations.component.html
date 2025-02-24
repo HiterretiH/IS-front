@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<div *ngIf="locations && locations.length > 0" class="container">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Row</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let location of locations">
+            <td>{{ location.id }}</td>
+            <td>{{ location.name }}</td>
+            <td>{{ location.description }}</td>
+            <td>{{ location.location_row }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageIndex === 0">Previous</button>
+        <span>Page <input
+                type="number"
+                [(ngModel)]="pageIndex"
+                [min]="1"
+                [max]="totalPages"
+                [disabled]="totalPages <= 1"
+                (change)="loadAll()"
+                class="page-input"
+        /> of {{ totalPages-1 }}</span>
+        <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
+    </div>
+</div>
+
+<div *ngIf="!loadAll || loadAll.length === 0">
+    ...
+</div>

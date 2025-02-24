@@ -1,0 +1,46 @@
+<app-header></app-header>
+
+<div *ngIf="workers && workers.length > 0" class="container">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Middle Name</th>
+            <th>Birth Date</th>
+            <th>Hire Date</th>
+            <th>Warehouse Id</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let worker of workers">
+            <td>{{ worker.id }}</td>
+            <td>{{ worker.first_name }}</td>
+            <td>{{ worker.last_name }}</td>
+            <td>{{ worker.middle_name }}</td>
+            <td>{{ worker.birth_date }}</td>
+            <td>{{ worker.hire_date }}</td>
+            <td>{{ worker.warehouse_id }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageIndex === 0">Previous</button>
+        <span>Page <input
+                type="number"
+                [(ngModel)]="pageIndex"
+                [min]="1"
+                [max]="totalPages"
+                [disabled]="totalPages <= 1"
+                (change)="loadWorkers()"
+                class="page-input"
+        /> of {{ totalPages-1 }}</span>
+        <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
+    </div>
+</div>
+
+<div *ngIf="!loadWorkers || loadWorkers.length === 0">
+    ...
+</div>

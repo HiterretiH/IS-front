@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import {AuthService} from "./auth.service";
-
-export interface LocationJson {
-    id: number;
-    x: number;
-    y: number;
-    z?: number;
-}
+import { environment } from "../../environments/environment.development";
+import { AuthService } from "./auth.service";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
-export class LocationService {
-    private baseUrl = `${environment.apiUrl}/locations`;
+export class PartnerService {
+    private baseUrl = `${environment.apiUrl}/partners`;
 
     constructor(private http: HttpClient, private authService: AuthService) {}
 
