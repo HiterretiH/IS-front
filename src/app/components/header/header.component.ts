@@ -33,8 +33,8 @@ export class HeaderComponent {
     return this.authService.isPending();
   }
 
-  isWorker(): boolean {
-    return this.authService.isWorker();
+  isUser(): boolean {
+    return this.authService.isUser();
   }
 
   isOperator(): boolean {

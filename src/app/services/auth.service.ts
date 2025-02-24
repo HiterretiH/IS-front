@@ -44,8 +44,8 @@ export class AuthService {
     return this.role == "OPERATOR";
   }
 
-  isWorker(): boolean {
-    return this.role == "WORKER";
+  isUser(): boolean {
+    return this.role == "USER";
   }
 
   isLoggedIn(): boolean {

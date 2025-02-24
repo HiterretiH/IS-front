@@ -32,8 +32,8 @@ export class HomeComponent implements OnInit {
         this.loadOrganizations();
     }
 
-    isWorker(): boolean {
-        return this.authService.isWorker();
+    isUser(): boolean {
+        return this.authService.isUser();
     }
 
     loadOrganizations(): void {

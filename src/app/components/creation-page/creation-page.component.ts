@@ -90,7 +90,7 @@ export class CreationPageComponent {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Failed to create worker. Please try again.',
+            detail: 'Failed to create . Please try again.',
           });
           console.error(err);
         },
