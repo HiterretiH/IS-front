@@ -1,0 +1,38 @@
+<app-header></app-header>
+
+<div *ngIf="queues && queues.length > 0" class="container">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Capacity</th>
+            <th>Sorting Station Id</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let queue of queues">
+            <td>{{ queue.id }}</td>
+            <td>{{ queue.capacity }}</td>
+            <td>{{ queue.sorting_station_id }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageIndex === 0">Previous</button>
+        <span>Page <input
+                type="number"
+                [(ngModel)]="pageIndex"
+                [min]="1"
+                [max]="totalPages"
+                [disabled]="totalPages <= 1"
+                (change)="loadQueues()"
+                class="page-input"
+        /> of {{ totalPages-1 }}</span>
+        <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
+    </div>
+</div>
+
+<div *ngIf="!queues || queues.length === 0">
+    ...
+</div>

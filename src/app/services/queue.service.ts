@@ -7,8 +7,8 @@ import { AuthService } from "./auth.service";
 @Injectable({
     providedIn: 'root'
 })
-export class ProductService {
-    private baseUrl = `${environment.apiUrl}/products`;
+export class QueueService {
+    private baseUrl = `${environment.apiUrl}/queues`;
 
     constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -17,7 +17,7 @@ export class ProductService {
         return this.authService.headers;
     }
 
-    getProducts(page: number, size: number): Observable<{data: any[], total: number}> {
+    getAll(page: number, size: number): Observable<{data: any[], total: number}> {
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());

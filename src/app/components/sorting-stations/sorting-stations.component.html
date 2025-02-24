@@ -1,0 +1,42 @@
+<app-header></app-header>
+
+<div *ngIf="sortingStations && sortingStations.length > 0" class="container">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Warehouse Id</th>
+            <th>Location Id</th>
+            <th>Capacity</th>
+            <th>Sort Time(Seconds)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let sortingStation of sortingStations">
+            <td>{{ sortingStation.id }}</td>
+            <td>{{ sortingStation.warehouse_id }}</td>
+            <td>{{ sortingStation.location_id }}</td>
+            <td>{{ sortingStation.capacity }}</td>
+            <td>{{ sortingStation.sort_time_seconds }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageIndex === 0">Previous</button>
+        <span>Page <input
+                type="number"
+                [(ngModel)]="pageIndex"
+                [min]="1"
+                [max]="totalPages"
+                [disabled]="totalPages <= 1"
+                (change)="loadSortingStations()"
+                class="page-input"
+        /> of {{ totalPages-1 }}</span>
+        <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
+    </div>
+</div>
+
+<div *ngIf="!sortingStations || sortingStations.length === 0">
+    ...
+</div>
