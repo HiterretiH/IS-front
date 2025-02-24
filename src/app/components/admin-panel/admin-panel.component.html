@@ -54,11 +54,11 @@
                 <td>{{ request.operator.username }}</td>
                 <td>{{ request.status }}</td>
                 <td>
-                    {{ request.createdAt[0] }}.
-                    {{ request.createdAt[1] < 10 ? '0' + request.createdAt[1] : request.createdAt[1] }}.
-                    {{ request.createdAt[2] < 10 ? '0' + request.createdAt[2] : request.createdAt[2] }}
-                    {{ request.createdAt[3] < 10 ? '0' + request.createdAt[3] : request.createdAt[3] }}:
-                    {{ request.createdAt[4] < 10 ? '0' + request.createdAt[4] : request.createdAt[4] }}
+                    {{request.createdAt[0] + '.' + 
+                    (request.createdAt[1] < 10 ? '0' + request.createdAt[1] : request.createdAt[1]) + '.' + 
+                    (request.createdAt[2] < 10 ? '0' + request.createdAt[2] : request.createdAt[2]) + ' ' + 
+                    (request.createdAt[3] < 10 ? '0' + request.createdAt[3] : request.createdAt[3]) + ':' + 
+                    (request.createdAt[4] < 10 ? '0' + request.createdAt[4] : request.createdAt[4])}}
                 </td>
                 <td>
                     <p-button
@@ -78,7 +78,6 @@
         </ng-template>
     </p-table>
 
-    <!-- Product Types Selection Modal -->
     <p-dialog
             header="Выберите тип продукта"
             [(visible)]="displayDialog"
@@ -98,7 +97,6 @@
                         [virtualScroll]="false"
                 ></p-dropdown>
 
-                <!-- Custom Paginator -->
                 <div class="custom-paginator">
                     <button
                             class="p-button p-button-text"

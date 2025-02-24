@@ -1,10 +1,6 @@
 import { HeaderComponent } from './components/header/header.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { CreateCoordinatesComponent } from './components/coordinates/coordinates.component';
-
-
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
@@ -21,7 +17,6 @@ import { TranslateModule } from '@ngx-translate/core';
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    CreateCoordinatesComponent,
     TranslateModule
   ],
   templateUrl: './app.component.html',
