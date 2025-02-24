@@ -1,0 +1,35 @@
+<p-toast></p-toast>
+
+<div id="form-container" class="p-card">
+  <p-card header="Создание новой локации">
+    <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+      <div class="p-field">
+        <label for="name">Название</label>
+        <br/>
+        <input id="name" pInputText formControlName="name" />
+        <br/>
+        <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">
+          Название обязательно
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="description">Описание</label>
+        <br/>
+        <textarea id="description" pInputText formControlName="description"></textarea>
+      </div>
+
+      <div class="p-field">
+        <label for="locationRow">Ряд локации</label>
+        <br/>
+        <p-inputNumber inputId="locationRow" formControlName="locationRow" />
+        <br/>
+        <div *ngIf="f.locationRow.invalid && (f.locationRow.dirty || f.locationRow.touched)" class="p-error">
+          Ряд локации обязателен
+        </div>
+      </div>
+
+      <p-button label="Создать" type="submit" [disabled]="locationForm.invalid"></p-button>
+    </form>
+  </p-card>
+</div>

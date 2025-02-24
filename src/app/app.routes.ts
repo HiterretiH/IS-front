@@ -5,14 +5,10 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { RegisterComponent } from './components/register/register.component';
 import { authGuard } from './auth.guard';
 import { guestGuard } from './guest.guard';
-import { CreationPageComponent } from './components/creation-page/creation-page.component';
-import { CreateCoordinatesComponent} from "./components/coordinates/coordinates.component";
-import { SearchPageComponent } from './components/search-page/search-page.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { OperatorRequestComponent } from './components/operator-request/operator-request.component';
 import { adminGuard } from './admin.guard';
 import { userGuard } from './user.guard';
-import { CreateOrganizationComponent } from "./components/organization/organization.component";
 import { pendingGuard } from './pending.guard';
 import { WaitingApprovalComponent } from './components/waiting-approval/waiting-approval.component';
 import {HomeComponent} from "./components/home/home.component";
@@ -35,8 +31,6 @@ export const routes: Routes = [
     { path: 'warehouses', component: WarehousesComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
-    { path: 'create', component: CreationPageComponent, canActivate: [authGuard, pendingGuard] },
-    { path: 'search', component: SearchPageComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'admin', component: AdminPanelComponent, canActivate: [authGuard, pendingGuard, adminGuard] },
     { path: 'admin-request', component: OperatorRequestComponent, canActivate: [authGuard, pendingGuard, userGuard] },
     { path: 'waiting-approval', component: WaitingApprovalComponent },

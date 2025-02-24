@@ -17,8 +17,11 @@
                   <td>{{ request.operator.username }}</td>
                   <td>{{ request.status }}</td>
                   <td>
-                      {{ request.createdAt[0] }}.{{ request.createdAt[1] < 10 ? '0' + request.createdAt[1] : request.createdAt[1] }}.{{ request.createdAt[2] < 10 ? '0' + request.createdAt[2] : request.createdAt[2] }}
-                      {{ request.createdAt[3] < 10 ? '0' + request.createdAt[3] : request.createdAt[3] }}:{{ request.createdAt[4] < 10 ? '0' + request.createdAt[4] : request.createdAt[4] }}
+                    {{request.createdAt[0] + '.' + 
+                    (request.createdAt[1] < 10 ? '0' + request.createdAt[1] : request.createdAt[1]) + '.' + 
+                    (request.createdAt[2] < 10 ? '0' + request.createdAt[2] : request.createdAt[2]) + ' ' + 
+                    (request.createdAt[3] < 10 ? '0' + request.createdAt[3] : request.createdAt[3]) + ':' + 
+                    (request.createdAt[4] < 10 ? '0' + request.createdAt[4] : request.createdAt[4])}}
                   </td>
               </tr>
           </ng-template>
@@ -28,7 +31,7 @@
 
       <p *ngIf="!isRequestSent">Если вы хотите стать оператором, отправьте запрос на получение соответствующих прав.</p>
 
-      <button *ngIf="!isRequestSent" (click)="sendOperatorRequest()">Отправить запрос</button>
+      <p-button *ngIf="!isRequestSent" (click)="sendOperatorRequest()">Отправить запрос</p-button>
 
       <p *ngIf="isRequestSent" class="success-message">
           Ваш запрос на получение админ прав был успешно отправлен!
@@ -38,6 +41,6 @@
           {{ errorMessage }}
       </p>
 
-    <button *ngIf="isRequestSent" (click)="navigateToHome()">Перейти на главную</button>
+    <p-button *ngIf="isRequestSent" (click)="navigateToHome()">Перейти на главную</p-button>
   </div>
 </div>

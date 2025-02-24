@@ -1,5 +1,5 @@
 export const environment = {
-    apiUrl: 'http://localhost:8080/info-systems-lab-1-1.0-SNAPSHOT/api',
+    apiUrl: 'http://localhost:7727/info-systems-back-1.0/api',
     loginPath: '/users/login',
     registerPath: '/users/register',
     shotsNew: '/shots/new',
