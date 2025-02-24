@@ -4,16 +4,11 @@ import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment.development";
 import { AuthService } from "./auth.service";
 
-export interface ProductType {
-    id: number;
-    name: string;
-}
-
 @Injectable({
     providedIn: 'root'
 })
-export class ProductTypeService {
-    private baseUrl = `${environment.apiUrl}/product-types`;
+export class QueueService {
+    private baseUrl = `${environment.apiUrl}/queues`;
 
     constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -22,7 +17,7 @@ export class ProductTypeService {
         return this.authService.headers;
     }
 
-    getProductTypes(page: number, size: number): Observable<{data: any[], total: number}> {
+    getAll(page: number, size: number): Observable<{data: any[], total: number}> {
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());

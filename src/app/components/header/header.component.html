@@ -1,10 +1,9 @@
 <div id="header" class="ui-widget">
     <div *ngIf="!isPending()" class="align-left">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Главная</a>
-        <a *ngIf="!isUser()" routerLink="/create-coordinates" routerLinkActive="active" class="nav-link">Создать координаты</a>
-        <a *ngIf="!isUser()" routerLink="/create-location" routerLinkActive="active" class="nav-link">Создать локацию</a>
-        <a *ngIf="!isUser()" routerLink="/create-address" routerLinkActive="active" class="nav-link">Создать адресс</a>
-        <a *ngIf="!isUser()" routerLink="/create-organization" routerLinkActive="active" class="nav-link">Создать организацию</a>
+        <a *ngIf="!isUser()" routerLink="/products" routerLinkActive="active" class="nav-link">Продукты</a>
+        <a *ngIf="!isUser()" routerLink="/queues" routerLinkActive="active" class="nav-link">Очереди</a>
+        <a *ngIf="!isUser()" routerLink="/sorting-stations" routerLinkActive="active" class="nav-link">Сортировочные станции</a>
     </div>
   
     <div class="align-right">
