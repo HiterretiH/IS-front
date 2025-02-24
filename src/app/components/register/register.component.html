@@ -10,15 +10,15 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="input-container">
           <label for="username">Имя пользователя:</label>
-          <input type="text" [pTooltip]="usernameToolTip" tooltipEvent="focus" pInputText class="p-inputtext-sm" id="username" formControlName="username" />
+          <input type="text" [pTooltip]="usernameToolTip" tooltipEvent="focus" pInputText class="p-input text-sm" id="username" formControlName="username" />
         </div>
         <div class="input-container">
           <label for="password">Пароль:</label>
-          <p-password formControlName="password" [pTooltip]="passwordToolTip" tooltipEvent="focus" class="p-inputtext-sm" [feedback]="false" [toggleMask]="true"></p-password>
+          <p-password id="password" formControlName="password" [pTooltip]="passwordToolTip" tooltipEvent="focus" class="p-input text-sm" [feedback]="false" [toggleMask]="true"></p-password>
         </div>
         <div class="input-container">
-          <label for="password">Повторите пароль:</label>
-          <p-password formControlName="confirmPassword" [pTooltip]="confirmToolTip" tooltipEvent="focus" class="p-inputtext-sm" [feedback]="false" [toggleMask]="true"></p-password>
+          <label for="confirmPassword">Повторите пароль:</label>
+          <p-password id="confirmPassword" formControlName="confirmPassword" [pTooltip]="confirmToolTip" tooltipEvent="focus" class="p-input text-sm" [feedback]="false" [toggleMask]="true"></p-password>
         </div>
 
         <div *ngIf="conflict" class="error-message">

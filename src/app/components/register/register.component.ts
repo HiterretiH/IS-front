@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -73,7 +73,9 @@ export class RegisterComponent implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(32)
       ]),
-      confirmPassword: new FormControl("")
+      confirmPassword: new FormControl("", [
+        Validators.required,
+      ])
     }
   );
 
@@ -85,7 +87,6 @@ export class RegisterComponent implements OnInit {
     const confirmField = this.form.get('confirmPassword');
 
     confirmField?.addValidators(this.matchPassword(this.form, "password"));
-    confirmField?.addValidators(Validators.required);
 
     usernameField?.valueChanges.subscribe(() => {
       this.conflict = false;
@@ -121,6 +122,7 @@ export class RegisterComponent implements OnInit {
     this.auth.register(<string>this.form.value.username, <string>this.form.value.password)
     .subscribe({
       next: (token) => {
+        console.log(token);
         this.router.navigate(["/"]);
       },
       error: (error: HttpErrorResponse) => {
@@ -129,7 +131,7 @@ export class RegisterComponent implements OnInit {
           this.conflict = true;
           this.form.get("username")?.setErrors({taken: true});
         }
-        else { 
+        else {
           this.conflict = false;
           this.error = true;
         }

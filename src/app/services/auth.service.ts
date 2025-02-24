@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { of, filter, map, pipe } from 'rxjs';
 
 interface Token {
+  id: string,
   token: string,
   expirationDate: number,
   role: string
@@ -18,7 +19,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  auth(username: string, token: string, role: string): void {
+  auth(id: string, username: string, token: string, role: string): void {
+    this.id = id;
     this.username = username;
     this.token = token;
     this.role = role;
@@ -34,8 +36,16 @@ export class AuthService {
     return this.role == "PENDING";
   }
 
-  isAdmin(): boolean {
+  isManager(): boolean {
     return this.role == "MANAGER";
+  }
+
+  isOperator(): boolean {
+    return this.role == "OPERATOR";
+  }
+
+  isWorker(): boolean {
+    return this.role == "WORKER";
   }
 
   isLoggedIn(): boolean {
@@ -55,7 +65,7 @@ export class AuthService {
       { headers: this.headers }
     ).subscribe({
       next: (res) => {
-        this.auth(this.username, this.token, res.role);
+        this.auth(this.id, this.username, this.token, res.role);
       },
       error: (err) => {
         console.error('Failed to fetch operator request:', err);
@@ -71,7 +81,7 @@ export class AuthService {
     ).pipe(
       map(
         (result) => {
-          this.auth(username, result.token, result.role);
+          this.auth(result.id, username, result.token, result.role);
           return result.token;
         }
       )
@@ -86,11 +96,19 @@ export class AuthService {
     ).pipe(
       map(
         (result) => {
-          this.auth(username, result.token, result.role);
+          this.auth(result.id, username, result.token, result.role);
           return result.token;
         }
       )
     );
+  }
+
+  set id(value: string) {
+    localStorage.setItem("id", value);
+  }
+
+  get id(): string {
+    return localStorage.getItem("id") || "";
   }
 
   set token(value: string) {

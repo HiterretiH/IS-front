@@ -1,0 +1,43 @@
+<app-header></app-header>
+
+<div id="form-container">
+  <div id="input-card" class="ui-widget">
+      <h2>Мои запросы</h2>
+
+      <p-table [value]="requests" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'" [style]="{ 'width': '100%' }">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Пользовавтель</th>
+                  <th>Статус</th>
+                  <th>Время отправки</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-request>
+              <tr>
+                  <td>{{ request.operator.username }}</td>
+                  <td>{{ request.status }}</td>
+                  <td>
+                      {{ request.createdAt[0] }}.{{ request.createdAt[1] < 10 ? '0' + request.createdAt[1] : request.createdAt[1] }}.{{ request.createdAt[2] < 10 ? '0' + request.createdAt[2] : request.createdAt[2] }}
+                      {{ request.createdAt[3] < 10 ? '0' + request.createdAt[3] : request.createdAt[3] }}:{{ request.createdAt[4] < 10 ? '0' + request.createdAt[4] : request.createdAt[4] }}
+                  </td>
+              </tr>
+          </ng-template>
+      </p-table>
+
+      <h2>Запрос должности оператора</h2>
+
+      <p *ngIf="!isRequestSent">Если вы хотите стать оператором, отправьте запрос на получение соответствующих прав.</p>
+
+      <button *ngIf="!isRequestSent" (click)="sendOperatorRequest()">Отправить запрос</button>
+
+      <p *ngIf="isRequestSent" class="success-message">
+          Ваш запрос на получение админ прав был успешно отправлен!
+      </p>
+
+      <p *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+      </p>
+
+    <button *ngIf="isRequestSent" (click)="navigateToHome()">Перейти на главную</button>
+  </div>
+</div>

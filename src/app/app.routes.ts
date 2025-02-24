@@ -9,7 +9,7 @@ import { CreationPageComponent } from './components/creation-page/creation-page.
 import { CreateCoordinatesComponent} from "./components/coordinates/coordinates.component";
 import { SearchPageComponent } from './components/search-page/search-page.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
-import { AdminRequestComponent } from './components/admin-request/admin-request.component';
+import { OperatorRequestComponent } from './components/operator-request/operator-request.component';
 import { adminGuard } from './admin.guard';
 import { userGuard } from './user.guard';
 import { CreateLocationComponent } from "./components/location/location.component";
@@ -25,7 +25,7 @@ export const routes: Routes = [
     { path: 'create', component: CreationPageComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'search', component: SearchPageComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'admin', component: AdminPanelComponent, canActivate: [authGuard, pendingGuard, adminGuard] },
-    { path: 'admin-request', component: AdminRequestComponent, canActivate: [authGuard, pendingGuard, userGuard] },
+    { path: 'admin-request', component: OperatorRequestComponent, canActivate: [authGuard, pendingGuard, userGuard] },
     { path: 'create-coordinates', component: CreateCoordinatesComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'create-location', component: CreateLocationComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'create-address', component: CreateAddressComponent, canActivate: [authGuard, pendingGuard] },

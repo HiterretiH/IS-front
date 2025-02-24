@@ -28,6 +28,10 @@ export class OperatorRequestsService {
     return this.http.get<OperatorRequest[]>(this.baseUrl, this.headers);
   }
 
+  getAllMine(id: number): Observable<OperatorRequest[]> {
+    return this.http.get<OperatorRequest[]>(`${this.baseUrl}/mine/${id}`, this.headers);
+  }
+
   getById(id: number): Observable<OperatorRequest> {
     return this.http.get<OperatorRequest>(`${this.baseUrl}/${id}`, this.headers);
   }
@@ -36,8 +40,10 @@ export class OperatorRequestsService {
     return this.http.get<OperatorRequest>(`${this.baseUrl}/by-username?username=${username}`, this.headers);
   }
 
-  create(request: OperatorRequest): Observable<OperatorRequest> {
-    return this.http.post<OperatorRequest>(this.baseUrl, request, this.headers);
+  create(id: string): Observable<string> {
+    return this.http.post<string>(`${this.baseUrl}/${parseInt(id)}`, {
+      headers: this.headers
+    });
   }
 
   update(id: number, request: OperatorRequest): Observable<OperatorRequest> {

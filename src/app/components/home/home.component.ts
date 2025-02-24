@@ -3,6 +3,7 @@ import { OrganizationService2 } from '../../services/organization.service2';
 import { HeaderComponent } from "../header/header.component";
 import { DatePipe } from "@angular/common";
 import { CommonModule } from '@angular/common';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
     selector: 'app-organization-list',
@@ -25,10 +26,14 @@ export class HomeComponent implements OnInit {
     sortColumn: string = '';
     sortDirection: boolean = true;
 
-    constructor(private organizationService2: OrganizationService2) {}
+    constructor(private authService: AuthService, private organizationService2: OrganizationService2) {}
 
     ngOnInit(): void {
         this.loadOrganizations();
+    }
+
+    isWorker(): boolean {
+        return this.authService.isWorker();
     }
 
     loadOrganizations(): void {
