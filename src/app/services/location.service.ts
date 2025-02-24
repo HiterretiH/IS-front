@@ -1,47 +1,54 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { AuthService } from './auth.service';
+import {AuthService} from "./auth.service";
 import { LocationJson } from '../json';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
-  private apiUrl = `${environment.apiUrl}/locations`;
+    private baseUrl = `${environment.apiUrl}/locations`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  private get headers() {
+    private get headers() {
+        this.authService.updateToken();
+        return this.authService.headers;
+    }
+  getLocations(): Observable<LocationJson[]> {
     this.authService.updateToken();
-    return this.authService.headers;
-  }
-
-  getLocations(page: number, size: number): Observable<{ data: LocationJson[]; total: number }> {
-    const params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-    
-    return this.http.get<{ data: LocationJson[]; total: number }>(`${this.apiUrl}`, {
-      params,
-      headers: this.headers,
-    });
+    return this.http.get<LocationJson[]>(`${this.baseUrl}/list`, { headers: this.authService.headers });
   }
 
   getById(id: number): Observable<LocationJson> {
-    return this.http.get<LocationJson>(`${this.apiUrl}/get/${id}`, { headers: this.headers });
+    this.authService.updateToken();
+    return this.http.get<LocationJson>(`${this.baseUrl}/get/${id}`, { headers: this.authService.headers });
   }
 
+    getAll(page: number, size: number): Observable<{data: any[], total: number}> {
+        const params = new HttpParams()
+            .set('page', page.toString())
+            .set('size', size.toString());
+
+        return this.http.get<{data: any[], total: number}>(this.baseUrl, {
+            params,
+            headers: this.headers
+        });
+    }
   createLocation(location: LocationJson): Observable<LocationJson> {
-    return this.http.post<LocationJson>(`${this.apiUrl}`, location, { headers: this.headers });
+    this.authService.updateToken();
+    return this.http.post<LocationJson>(`${this.baseUrl}`, location, { headers: this.authService.headers });
   }
 
   updateLocation(id: number, location: LocationJson): Observable<LocationJson> {
-    return this.http.put<LocationJson>(`${this.apiUrl}/update/${id}`, location, { headers: this.headers });
+    this.authService.updateToken();
+    return this.http.put<LocationJson>(`${this.baseUrl}/update/${id}`, location, { headers: this.authService.headers });
   }
 
   deleteLocation(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`, { headers: this.headers });
+    this.authService.updateToken();
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`, { headers: this.authService.headers });
   }
 }

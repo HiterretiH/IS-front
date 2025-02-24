@@ -15,12 +15,20 @@ import {HomeComponent} from "./components/home/home.component";
 import {QueuesComponent} from "./components/queues/queues.component";
 import {SortingStationService} from "./services/sorting-station.service";
 import {SortingStationsComponent} from "./components/sorting-stations/sorting-stations.component";
+import {WorkersComponent} from "./components/workers/workers.component";
+import {PartnersComponent} from "./components/partners/partners.component";
+import {LocationsComponent} from "./components/locations/locations.component";
+import {WarehousesComponent} from "./components/warehouses/warehouses.component";
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'products', component: ProductsComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'queues', component: QueuesComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'sorting-stations', component: SortingStationsComponent, canActivate: [authGuard, pendingGuard] },
+    { path: 'workers', component: WorkersComponent, canActivate: [authGuard, pendingGuard] },
+    { path: 'partners', component: PartnersComponent, canActivate: [authGuard, pendingGuard] },
+    { path: 'locations', component: LocationsComponent, canActivate: [authGuard, pendingGuard] },
+    { path: 'warehouses', component: WarehousesComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
     { path: 'admin', component: AdminPanelComponent, canActivate: [authGuard, pendingGuard, adminGuard] },

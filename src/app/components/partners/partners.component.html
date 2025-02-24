@@ -1,0 +1,42 @@
+<app-header></app-header>
+
+<div *ngIf="partners && partners.length > 0" class="container">
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let partner of partners">
+            <td>{{ partner.id }}</td>
+            <td>{{ partner.name }}</td>
+            <td>{{ partner.email }}</td>
+            <td>{{ partner.phone_number }}</td>
+            <td>{{ partner.address }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button (click)="prevPage()" [disabled]="pageIndex === 0">Previous</button>
+        <span>Page <input
+                type="number"
+                [(ngModel)]="pageIndex"
+                [min]="1"
+                [max]="totalPages"
+                [disabled]="totalPages <= 1"
+                (change)="loadAll()"
+                class="page-input"
+        /> of {{ totalPages-1 }}</span>
+        <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
+    </div>
+</div>
+
+<div *ngIf="!loadAll || loadAll.length === 0">
+    ...
+</div>
