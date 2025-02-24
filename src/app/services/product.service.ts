@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment.development";
 import { AuthService } from "./auth.service";
 
-export interface ProductType {
+export interface Product {
     id: number;
     name: string;
 }
@@ -12,8 +12,8 @@ export interface ProductType {
 @Injectable({
     providedIn: 'root'
 })
-export class ProductTypeService {
-    private baseUrl = `${environment.apiUrl}/product-types`;
+export class ProductService {
+    private baseUrl = `${environment.apiUrl}/products`;
 
     constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -22,7 +22,7 @@ export class ProductTypeService {
         return this.authService.headers;
     }
 
-    getProductTypes(page: number, size: number): Observable<{data: any[], total: number}> {
+    getProducts(page: number, size: number): Observable<{data: any[], total: number}> {
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());

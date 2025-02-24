@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { ProductsComponent } from './components/products/products.component';
 import { LoginComponent } from './components/login/login.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -19,7 +19,7 @@ import { pendingGuard } from './pending.guard';
 import { WaitingApprovalComponent } from './components/waiting-approval/waiting-approval.component';
 
 export const routes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [authGuard, pendingGuard] },
+    { path: '', component: ProductsComponent, canActivate: [authGuard, pendingGuard] },
     { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
     { path: 'create', component: CreationPageComponent, canActivate: [authGuard, pendingGuard] },

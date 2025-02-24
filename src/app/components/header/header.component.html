@@ -1,6 +1,6 @@
 <div id="header" class="ui-widget">
     <div *ngIf="!isPending()" class="align-left">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Главная</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Продукты</a>
         <a *ngIf="!isUser()" routerLink="/create-coordinates" routerLinkActive="active" class="nav-link">Создать координаты</a>
         <a *ngIf="!isUser()" routerLink="/create-location" routerLinkActive="active" class="nav-link">Создать локацию</a>
         <a *ngIf="!isUser()" routerLink="/create-address" routerLinkActive="active" class="nav-link">Создать адресс</a>

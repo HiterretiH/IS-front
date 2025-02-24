@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OperatorRequestsService, OperatorRequest } from '../../services/operator-requests.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ProductService, ProductType } from '../../services/product-type.service';
+import { ProductTypeService, ProductType } from '../../services/product-type.service';
 import { HeaderComponent } from "../header/header.component";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { TableModule } from "primeng/table";
@@ -41,7 +41,7 @@ export class AdminPanelComponent implements OnInit {
       private operatorRequestsService: OperatorRequestsService,
       private confirmationService: ConfirmationService,
       private messageService: MessageService,
-      private productService: ProductService // Inject ProductService
+      private productService: ProductTypeService // Inject ProductService
   ) {}
 
   ngOnInit(): void {
