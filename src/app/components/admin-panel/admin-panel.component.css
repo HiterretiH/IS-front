@@ -10,6 +10,11 @@
   margin-right: 8px;
 }
 
+.custom-paginator {
+  display: flex;
+  justify-items: stretch;
+}
+
 .filter-buttons button.active {
   font-weight: bold;
   border-bottom: 2px solid var(--primary-color);
