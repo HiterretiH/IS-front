@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="sortingStations && sortingStations.length > 0; else empty" class="container">
+<div class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -36,9 +36,5 @@
         <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
     </div>
 </div>
-
-<ng-template #empty>
-    ...
-</ng-template>
 
 <app-sorting-station-create></app-sorting-station-create>
