@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="workers && workers.length > 0; else empty" class="container">
+<div class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -8,6 +8,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Middle Name</th>
+            <th>Status</th>
             <th>Birth Date</th>
             <th>Hire Date</th>
             <th>Warehouse Id</th>
@@ -19,6 +20,7 @@
             <td>{{ worker.first_name }}</td>
             <td>{{ worker.last_name }}</td>
             <td>{{ worker.middle_name }}</td>
+            <td>{{ worker.status }}</td>
             <td>{{ worker.birth_date }}</td>
             <td>{{ worker.hire_date }}</td>
             <td>{{ worker.warehouse_id }}</td>
@@ -40,9 +42,5 @@
         <button (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
     </div>
 </div>
-
-<ng-template #empty>
-    ...
-</ng-template>
 
 <app-worker-create></app-worker-create>
