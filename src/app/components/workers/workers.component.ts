@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
@@ -19,17 +19,23 @@ import { WorkerCreateComponent } from '../create/worker-create/worker-create.com
         WorkerCreateComponent
     ]
 })
-export class WorkersComponent implements OnInit {
+export class WorkersComponent implements OnInit, OnDestroy {
     workers: any[] = [];
     totalWorkers: number = 0;
     pageSize: number = 10;
     pageIndex: number = 0;
     totalPages: number = 1;
+    pollingInterval: any;
 
     constructor(private workerService: WorkerService) {}
 
     ngOnInit(): void {
         this.loadWorkers();
+        this.startPolling();
+    }
+
+    ngOnDestroy(): void {
+        this.stopPolling();
     }
 
     loadWorkers(): void {
@@ -56,6 +62,18 @@ export class WorkersComponent implements OnInit {
         if (this.pageIndex > 0) {
             this.pageIndex--;
             this.loadWorkers();
+        }
+    }
+
+    startPolling(): void {
+        this.pollingInterval = setInterval(() => {
+            this.loadWorkers();
+        }, 10000);
+    }
+
+    stopPolling(): void {
+        if (this.pollingInterval) {
+            clearInterval(this.pollingInterval);
         }
     }
 }

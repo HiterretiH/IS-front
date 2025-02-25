@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div id="form-container" class="p-card">
+<div *ngIf="isManager()" id="form-container" class="p-card">
     <p-card header="Создание / Обновление рабочего">
         <div class="p-field">
             <label for="workerId">Введите ID рабочего для обновления</label>

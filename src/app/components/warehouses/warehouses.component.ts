@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
@@ -17,17 +17,23 @@ import { WarehouseCreateComponent } from '../create/warehouse-create/warehouse-c
         WarehouseCreateComponent
     ]
 })
-export class WarehousesComponent implements OnInit {
+export class WarehousesComponent implements OnInit, OnDestroy {
     warehouses: any[] = [];
     totalWarehouses: number = 0;
     pageSize: number = 10;
     pageIndex: number = 0;
     totalPages: number = 1;
+    pollingInterval: any;
 
     constructor(private warehouseService: WarehouseService) {}
 
     ngOnInit(): void {
         this.loadWarehouses();
+        this.startPolling();
+    }
+
+    ngOnDestroy(): void {
+        this.stopPolling();
     }
 
     loadWarehouses(): void {
@@ -54,6 +60,18 @@ export class WarehousesComponent implements OnInit {
         if (this.pageIndex > 0) {
             this.pageIndex--;
             this.loadWarehouses();
+        }
+    }
+
+    startPolling(): void {
+        this.pollingInterval = setInterval(() => {
+            this.loadWarehouses();
+        }, 10000);
+    }
+
+    stopPolling(): void {
+        if (this.pollingInterval) {
+            clearInterval(this.pollingInterval);
         }
     }
 }

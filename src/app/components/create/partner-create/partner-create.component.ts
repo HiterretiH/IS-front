@@ -28,7 +28,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
   styleUrls: ['./partner-create.component.css'],
   providers: [MessageService]
 })
-export class PartnerCreateComponent implements OnInit {
+export class PartnerCreateComponent {
   partnerForm: FormGroup;
   user: UserJson = { id: 0, username: '' };
   partnerIdInput: number | null = null;
@@ -50,7 +50,8 @@ export class PartnerCreateComponent implements OnInit {
     this.user.username = this.authService.username;
   }
 
-  ngOnInit() {
+  isManager() {
+    return this.authService.isManager();
   }
 
   onPartnerLoad() {

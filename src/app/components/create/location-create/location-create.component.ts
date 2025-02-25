@@ -28,7 +28,7 @@ import { LocationJson, UserJson } from '../../../json';
   styleUrls: ['./location-create.component.css'],
   providers: [MessageService]
 })
-export class LocationCreateComponent implements OnInit {
+export class LocationCreateComponent {
   locationForm: FormGroup;
   user: UserJson = { id: 0, username: '' };
   locationIdInput: number | null = null;
@@ -49,7 +49,8 @@ export class LocationCreateComponent implements OnInit {
     this.user.username = this.authService.username;
   }
 
-  ngOnInit() {
+  isManager() {
+    return this.authService.isManager();
   }
 
   onLocationLoad() {

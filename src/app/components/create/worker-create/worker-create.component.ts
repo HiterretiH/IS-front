@@ -58,6 +58,10 @@ export class WorkerCreateComponent {
     this.user.username = this.authService.username;
   }
 
+  isManager() {
+    return this.authService.isManager();
+  }
+
   delete() {
     if (this.workerIdInput) {
       this.workerService.deleteWorker(parseInt(this.workerIdInput)).subscribe(

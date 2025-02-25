@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {ProductService} from '../../../services/product.service';
@@ -15,6 +15,8 @@ import {DropdownModule} from 'primeng/dropdown';
 import {CalendarModule} from 'primeng/calendar';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {SortingStationService} from "../../../services/sorting-station.service";
+import {AuthService} from "../../../services/auth.service";
+import {OperatorService} from "../../../services/operator.service";
 
 @Component({
   selector: 'app-product-create',
@@ -35,7 +37,7 @@ import {SortingStationService} from "../../../services/sorting-station.service";
   styleUrls: ['./product-create.component.css'],
   providers: [MessageService]
 })
-export class ProductCreateComponent {
+export class ProductCreateComponent implements OnInit {
   productForm: FormGroup;
   productIdInput: string = '';
   location: LocationJson | null = null;
@@ -45,6 +47,7 @@ export class ProductCreateComponent {
   product: ProductJson | null = null;
   sortingStation: SortingStationJson | null = null;
   currentProduct: ProductJson | null = null;
+  allowedProductType: ProductTypeJson | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +56,9 @@ export class ProductCreateComponent {
     private partnerService: PartnerService,
     private productTypeService: ProductTypeService,
     private messageService: MessageService,
-    private sortingStationService: SortingStationService
+    private sortingStationService: SortingStationService,
+    private authService: AuthService,
+    private operatorService: OperatorService,
   ) {
     this.productForm = this.fb.group({
       id: [''],
@@ -82,6 +87,26 @@ export class ProductCreateComponent {
     });
   }
 
+  ngOnInit() {
+    if (this.authService.isOperator()) {
+      this.operatorService.getProductTypeByUserId(parseInt(this.authService.id))
+          .subscribe(
+              (productTypeByUserId) => {
+                this.allowedProductType = productTypeByUserId;
+              },
+              (error) => {
+                console.error("Error fetching product type by user ID:", error);
+              }
+          );
+    }
+  }
+
+  isProductTypeAllowed() {
+    return this.productType?.id === this.allowedProductType?.id;
+  }
+  isOperator() {
+    return this.authService.isOperator();
+  }
   isStoredOrSorting() {
     return this.product?.productState === ProductState.STORED || this.product?.productState === ProductState.SORTING_TO_SHIP;
   }
@@ -209,16 +234,18 @@ export class ProductCreateComponent {
 
   }
 
-  // Load the product for editing using the provided product ID
   onProductLoad() {
     if (this.productIdInput) {
       this.productService.getById(parseInt(this.productIdInput, 10)).subscribe(
           (product) => {
+            // Convert the expirationDate string to a Date object
+            const expirationDate = product.expirationDate ? new Date(product.expirationDate) : null;
+
             this.currentProduct = product;
             this.productForm.patchValue({
               name: product.name,
               description: product.description,
-              expirationDate: product.expirationDate,
+              expirationDate: expirationDate, // Assign the Date object here
               productState: product.productState,
               priority: product.priority,
               locationId: product.location.id,
@@ -238,6 +265,7 @@ export class ProductCreateComponent {
       );
     }
   }
+
 
   onSubmit() {
     if (this.productForm.valid) {

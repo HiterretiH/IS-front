@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div id="form-container" class="p-card">
+<div *ngIf="isManager()" id="form-container" class="p-card">
     <p-card header="Создание / Обновление сортировочной станции">
         <div class="p-field">
             <label for="stationId">Введите ID сортировочной станции для обновления</label>

@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<div id="form-container" class="p-card">
+<div *ngIf="isManager()" id="form-container" class="p-card">
     <p-card header="Создание / Обновление локации">
         <!-- Input field for entering the location ID -->
         <div class="p-field">

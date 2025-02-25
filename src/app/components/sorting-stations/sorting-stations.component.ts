@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
@@ -18,17 +18,23 @@ import { SortingStationCreateComponent } from '../create/sorting-station-create/
     SortingStationCreateComponent
   ]
 })
-export class SortingStationsComponent implements OnInit {
+export class SortingStationsComponent implements OnInit, OnDestroy {
   sortingStations: any[] = [];
   totalSortingStations: number = 0;
   pageSize: number = 10;
   pageIndex: number = 0;
   totalPages: number = 1;
+  pollingInterval: any;
 
   constructor(private sortingStationService: SortingStationService) {}
 
   ngOnInit(): void {
     this.loadSortingStations();
+    this.startPolling();
+  }
+
+  ngOnDestroy(): void {
+    this.stopPolling();
   }
 
   loadSortingStations(): void {
@@ -55,6 +61,18 @@ export class SortingStationsComponent implements OnInit {
     if (this.pageIndex > 0) {
       this.pageIndex--;
       this.loadSortingStations();
+    }
+  }
+
+  startPolling(): void {
+    this.pollingInterval = setInterval(() => {
+      this.loadSortingStations();
+    }, 10000);
+  }
+
+  stopPolling(): void {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
     }
   }
 }

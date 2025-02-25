@@ -10,6 +10,7 @@ import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
 import {NgIf} from "@angular/common";
 import {ChipsModule} from "primeng/chips";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-sorting-station-create',
@@ -27,7 +28,7 @@ import {ChipsModule} from "primeng/chips";
   ],
   providers: [MessageService]
 })
-export class SortingStationCreateComponent implements OnInit {
+export class SortingStationCreateComponent {
   sortingStationForm: FormGroup;
   warehouse: WarehouseJson | null = null;
   location: LocationJson | null = null;
@@ -39,7 +40,8 @@ export class SortingStationCreateComponent implements OnInit {
       private sortingStationService: SortingStationService,
       private warehouseService: WarehouseService,
       private locationService: LocationService,
-      private messageService: MessageService
+      private messageService: MessageService,
+      private authService: AuthService
   ) {
     this.sortingStationForm = this.fb.group({
       warehouseId: [null, Validators.required],
@@ -49,7 +51,9 @@ export class SortingStationCreateComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+    isManager() {
+        return this.authService.isManager();
+    }
 
   delete() {
     if (this.selectedStationId) {

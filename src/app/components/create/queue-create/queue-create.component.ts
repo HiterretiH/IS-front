@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-queue-create',
@@ -38,13 +39,18 @@ export class QueueCreateComponent {
       private fb: FormBuilder,
       private queueService: QueueService,
       private sortingStationService: SortingStationService,
-      private messageService: MessageService
+      private messageService: MessageService,
+      private authService: AuthService
   ) {
     this.queueForm = this.fb.group({
       sortingStationId: [null, Validators.required],
       capacity: [null, [Validators.required, Validators.min(1)]]
     });
   }
+
+    isManager() {
+        return this.authService.isManager();
+    }
 
   checkSortingStation() {
     const sortingStationId = this.queueForm.get('sortingStationId')?.value;

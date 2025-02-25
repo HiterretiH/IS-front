@@ -1,10 +1,13 @@
 import { AuthService } from '../../services/auth.service';
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CardModule } from 'primeng/card';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import {OperatorService} from "../../services/operator.service";
+import {ProductType} from "../../services/product-type.service";
+import {ProductTypeJson} from "../../json";
 
 @Component({
   selector: 'app-header',
@@ -22,7 +25,7 @@ import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/rou
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private authService: AuthService, 
+  constructor(private authService: AuthService,
               private router: Router) {}
 
   isLoggedIn(): boolean {

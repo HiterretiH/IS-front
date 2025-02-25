@@ -10,14 +10,14 @@
     </div>
   
     <div class="align-right">
-      <span *ngIf="isLoggedIn()" class="username">{{ username }}</span>
-      <a *ngIf="isManager()" routerLink="/admin" routerLinkActive="active" class="nav-link">
-        Панель администратора
-      </a>
+        <span *ngIf="isLoggedIn()" class="username">{{ username }}</span>
+        <a *ngIf="isManager()" routerLink="/admin" routerLinkActive="active" class="nav-link">
+            Панель администратора
+        </a>
         <a *ngIf="isUser()" routerLink="/admin" routerLinkActive="active" class="nav-link">
             Запросить должность оператора
         </a>
-      <p-button *ngIf="isLoggedIn()" (onClick)="logOut()" label="Выйти" icon="pi pi-sign-out" iconPos="right" [outlined]="true" size="small"></p-button>
+        <p-button *ngIf="isLoggedIn()" (onClick)="logOut()" label="Выйти" icon="pi pi-sign-out" iconPos="right" [outlined]="true" size="small"></p-button>
     </div>
   </div>
   

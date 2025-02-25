@@ -1,6 +1,8 @@
 <p-toast></p-toast>
 
 <div id="form-container" class="p-card">
+    <span *ngIf="isOperator() && allowedProductType && allowedProductType.id" class="allowed-product">Assigned to {{ allowedProductType.name }} (Id: {{ allowedProductType.id }})</span>
+
   <p-card header="Управление продуктом">
     <form [formGroup]="productForm">
       <div class="p-field">
@@ -34,13 +36,12 @@
       </div>
 
       <div class="card flex justify-content-center">
-        <p-button label="Сортировка для отправки" (onClick)="sortToShip()" [disabled]="!product || !sortingStation || !isStoredOrSorting()"></p-button>
-        <p-button label="Сортировка для хранения" (onClick)="sortToStore()" [disabled]="!product || !sortingStation || !isPendingOrSorting()"></p-button>
-        <p-button label="Утилизировать" severity="danger" (onClick)="disposeProduct()" [disabled]="!product || !isStoredOrSorting()"></p-button>
+        <p-button label="Сортировка для отправки" (onClick)="sortToShip()" [disabled]="!product || !sortingStation || !isStoredOrSorting() || (isOperator() && !isProductTypeAllowed())"></p-button>
+        <p-button label="Сортировка для хранения" (onClick)="sortToStore()" [disabled]="!product || !sortingStation || !isPendingOrSorting() || (isOperator() && !isProductTypeAllowed())"></p-button>
+        <p-button label="Утилизировать" severity="danger" (onClick)="disposeProduct()" [disabled]="!product || !isStoredOrSorting() || (isOperator() && !isProductTypeAllowed())"></p-button>
       </div>
     </form>
   </p-card>
-
 
     <p-card header="Создание / Обновление продукта">
         <div class="p-field">
@@ -67,7 +68,7 @@
 
             <div class="p-field">
                 <label for="expirationDate">Срок годности</label>
-                <p-calendar id="expirationDate" formControlName="expirationDate" dateFormat="dd/mm/yy"></p-calendar>
+                <p-calendar id="expirationDate" formControlName="expirationDate"></p-calendar>
                 <div *ngIf="f.expirationDate.invalid && (f.expirationDate.dirty || f.expirationDate.touched)" class="p-error">
                     Укажите срок годности
                 </div>
@@ -138,7 +139,7 @@
                 </ng-template>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="productForm.invalid || !location || !supplier || !customer || !productType"></p-button>
+            <p-button label="Сохранить" type="submit" [disabled]="productForm.invalid || !location || !supplier || !customer || !productType || (isOperator() && !isProductTypeAllowed())"></p-button>
         </form>
     </p-card>
 </div>

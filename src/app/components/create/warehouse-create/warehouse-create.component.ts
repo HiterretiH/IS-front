@@ -28,7 +28,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
   styleUrls: ['./warehouse-create.component.css'],
   providers: [MessageService]
 })
-export class WarehouseCreateComponent implements OnInit {
+export class WarehouseCreateComponent {
   warehouseForm: FormGroup;
   warehouseIdInput: number | null = null;  // Store the manually entered warehouse ID
   selectedWarehouseId: number | null = null;  // Track the loaded warehouse ID
@@ -48,8 +48,8 @@ export class WarehouseCreateComponent implements OnInit {
     this.user.username = this.authService.username;
   }
 
-  ngOnInit() {
-    // No need to load warehouses initially since it's now a manual input
+  isManager() {
+    return this.authService.isManager();
   }
 
   delete() {
