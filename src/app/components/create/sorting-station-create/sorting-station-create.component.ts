@@ -51,6 +51,25 @@ export class SortingStationCreateComponent implements OnInit {
 
   ngOnInit() {}
 
+  delete() {
+    if (this.selectedStationId) {
+      this.sortingStationService.delete(this.selectedStationId).subscribe(
+        () => {
+          this.messageService.add({ severity: 'info', summary: 'Сортировочная станция удалена', detail: 'Сортировочная станция успешно удалена.' });
+          this.sortingStationForm.reset();
+          this.selectedStationId = null;
+          this.warehouse = null;
+          this.location = null;
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления сортировочной станции.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID сортировочной станции.' });
+    }
+  }  
+
   // Load sorting station by ID
   onStationLoad() {
     if (this.stationIdInput) {

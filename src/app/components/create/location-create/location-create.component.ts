@@ -31,8 +31,8 @@ import { LocationJson, UserJson } from '../../../json';
 export class LocationCreateComponent implements OnInit {
   locationForm: FormGroup;
   user: UserJson = { id: 0, username: '' };
-  locationIdInput: number | null = null; // Store the manually entered location ID
-  selectedLocationId: number | null = null; // Track the loaded location ID
+  locationIdInput: number | null = null;
+  selectedLocationId: number | null = null;
 
   constructor(
       private fb: FormBuilder,
@@ -50,10 +50,8 @@ export class LocationCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // No need to load locations initially since it's now a manual input
   }
 
-  // Handle loading location by manually entered ID
   onLocationLoad() {
     if (this.locationIdInput) {
       this.locationService.getById(this.locationIdInput).subscribe(
@@ -75,6 +73,21 @@ export class LocationCreateComponent implements OnInit {
     }
   }
 
+  delete() {
+    if (this.selectedLocationId) {
+      this.locationService.deleteLocation(this.selectedLocationId).subscribe(
+        (res: any) => {
+          this.messageService.add({ severity: 'info', summary: 'Локация удалена', detail: 'Локация успешно удалена.' });
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления локации.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID локации.' });
+    }
+  }
+
   onSubmit() {
     if (this.locationForm.valid) {
       const locationData: LocationJson = {
@@ -85,7 +98,6 @@ export class LocationCreateComponent implements OnInit {
       };
 
       if (this.selectedLocationId) {
-        // Update location
         this.locationService.updateLocation(locationData.id, locationData).subscribe(
             () => {
               this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Локация обновлена!' });
@@ -97,7 +109,6 @@ export class LocationCreateComponent implements OnInit {
             }
         );
       } else {
-        // Create new location
         this.locationService.createLocation(locationData).subscribe(
             () => {
               this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Локация создана!' });

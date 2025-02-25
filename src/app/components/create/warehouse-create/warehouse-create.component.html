@@ -34,7 +34,10 @@
                 </div>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="warehouseForm.invalid"></p-button>
+            <div class="card flex justify-content-center">
+                <p-button label="Сохранить" type="submit" [disabled]="warehouseForm.invalid"></p-button>
+                <p-button label="Удалить" severity="danger" (onClick)="delete()" [disabled]="!selectedWarehouseId"></p-button>
+            </div>
         </form>
     </p-card>
 </div>

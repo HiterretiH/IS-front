@@ -46,7 +46,7 @@ export class ProductCreateComponent {
   productType: ProductTypeJson | null = null;
   product: ProductJson | null = null;
   sortingStation: SortingStationJson | null = null;
-  currentProduct: ProductJson | null = null; // For holding current product if editing
+  currentProduct: ProductJson | null = null;
 
   productStates = Object.values(ProductState);
 
@@ -75,7 +75,6 @@ export class ProductCreateComponent {
       productTypeId: [null, Validators.required]
     });
 
-    // Watch for changes in the form fields related to partners, location, queue, and product type
     this.productForm.get('locationId')?.valueChanges.subscribe(() => {
       this.checkLocation();
     });
@@ -205,7 +204,6 @@ export class ProductCreateComponent {
 
   }
 
-  // Load the product for editing using the provided product ID
   onProductLoad() {
     if (this.productIdInput) {
       this.productService.getById(parseInt(this.productIdInput, 10)).subscribe(
@@ -237,7 +235,6 @@ export class ProductCreateComponent {
     }
   }
 
-  // Handle the form submission for creating or updating a product
   onSubmit() {
     if (this.productForm.valid) {
       if (!this.location || !this.supplier || !this.customer || !this.queue || !this.productType) {
@@ -246,7 +243,7 @@ export class ProductCreateComponent {
       }
 
       const productData: ProductJson = {
-        id: this.currentProduct ? this.currentProduct.id : 0, // Use the existing product ID if editing
+        id: this.currentProduct ? this.currentProduct.id : 0,
         name: this.productForm.value.name,
         description: this.productForm.value.description,
         expirationDate: this.productForm.value.expirationDate,
@@ -260,8 +257,8 @@ export class ProductCreateComponent {
       };
 
       const productRequest$ = this.currentProduct
-          ? this.productService.updateProduct(productData.id, productData) // Update if editing
-          : this.productService.createProduct(productData); // Create if new
+          ? this.productService.updateProduct(productData.id, productData)
+          : this.productService.createProduct(productData);
 
       productRequest$.subscribe(
           () => {
@@ -272,7 +269,7 @@ export class ProductCreateComponent {
             this.customer = null;
             this.queue = null;
             this.productType = null;
-            this.currentProduct = null; // Reset the current product object
+            this.currentProduct = null;
           },
           () => {
             this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать или обновить продукт.' });

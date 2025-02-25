@@ -38,7 +38,10 @@
                 </div>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="locationForm.invalid"></p-button>
+            <div class="card flex justify-content-center">
+                <p-button label="Сохранить" type="submit" [disabled]="locationForm.invalid"></p-button>
+                <p-button label="Удалить" severity="danger" (onClick)="delete()" [disabled]="!selectedLocationId"></p-button>
+            </div>
         </form>
     </p-card>
 </div>
