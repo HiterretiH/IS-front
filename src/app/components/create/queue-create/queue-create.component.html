@@ -1,1 +1,44 @@
-<p>queue-create works!</p>
+<p-toast></p-toast>
+
+<div id="form-container" class="p-card">
+  <p-card header="Создание новой очереди">
+    <form [formGroup]="queueForm" (ngSubmit)="onSubmit()">
+      
+      <div class="p-field">
+        <label for="sortingStationId">Сортировочная станция</label>
+        <input 
+          id="sortingStationId" 
+          pInputText 
+          formControlName="sortingStationId" 
+          (ngModelChange)="checkSortingStation()" 
+          [ngModel]="queueForm.value.sortingStationId" 
+        />
+        <div *ngIf="f.sortingStationId.invalid && (f.sortingStationId.dirty || f.sortingStationId.touched); else invalidSortingStation" class="p-error">
+          Сортировочная станция обязательна
+        </div>
+
+        <ng-template #invalidSortingStation>
+          <div *ngIf="sortingStation !== null">
+            <div *ngIf="sortingStation">
+              <small class="p-text-success">Сортировочная станция найдена: {{ sortingStation.id }}</small>
+            </div>
+          </div>
+
+          <div *ngIf="sortingStation === null && f.sortingStationId.touched">
+            <small class="p-text-danger p-error">Сортировочная станция не найдена. Пожалуйста, выберите правильную сортировочную станцию.</small>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="p-field">
+        <label for="capacity">Вместимость</label>
+        <input id="capacity" pInputText formControlName="capacity" />
+        <div *ngIf="f.capacity.invalid && (f.capacity.dirty || f.capacity.touched)" class="p-error">
+          Вместимость обязательна
+        </div>
+      </div>
+
+      <p-button label="Создать" type="submit" [disabled]="queueForm.invalid || sortingStation === null"></p-button>
+    </form>
+  </p-card>
+</div>

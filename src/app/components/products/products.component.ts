@@ -3,6 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
+import { ProductCreateComponent } from '../create/product-create/product-create.component';
 
 @Component({
     selector: 'app-product-list',
@@ -13,6 +14,7 @@ import {FormsModule} from "@angular/forms";
         HeaderComponent,
         CommonModule,
         FormsModule,
+        ProductCreateComponent
     ]
 })
 export class ProductsComponent implements OnInit {

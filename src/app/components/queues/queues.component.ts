@@ -4,6 +4,7 @@ import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {QueueService} from "../../services/queue.service";
+import { QueueCreateComponent } from '../create/queue-create/queue-create.component';
 
 @Component({
     selector: 'app-queues',
@@ -14,6 +15,7 @@ import {QueueService} from "../../services/queue.service";
         HeaderComponent,
         CommonModule,
         FormsModule,
+        QueueCreateComponent
     ]
 })
 export class QueuesComponent implements OnInit {
