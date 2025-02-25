@@ -40,15 +40,13 @@
       </div>
     </form>
   </p-card>
-</div>
 
 
-<div id="form-container" class="p-card">
     <p-card header="Создание / Обновление продукта">
         <div class="p-field">
             <label for="productId">Введите ID продукта для обновления</label>
             <br/>
-            <input id="productId" pInputText [(ngModel)]="productIdInput" placeholder="Введите ID продукта" />
+            <input id="productToEditId" pInputText [(ngModel)]="productIdInput" placeholder="Введите ID продукта" />
             <br/>
             <p-button label="Загрузить продукт" (onClick)="onProductLoad()"></p-button>
         </div>
@@ -167,3 +165,129 @@
         </form>
     </p-card>
 </div>
+
+
+<!--<div id="form-container" class="p-card">-->
+<!--    <p-card header="Создание / Обновление продукта">-->
+<!--        <div class="p-field">-->
+<!--            <label for="productId">Введите ID продукта для обновления</label>-->
+<!--            <br/>-->
+<!--            <input id="productId" pInputText [(ngModel)]="productIdInput" placeholder="Введите ID продукта" />-->
+<!--            <br/>-->
+<!--            <p-button label="Загрузить продукт" (onClick)="onProductLoad()"></p-button>-->
+<!--        </div>-->
+
+<!--        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">-->
+<!--            <div class="p-field">-->
+<!--                <label for="name">Название</label>-->
+<!--                <input id="name" pInputText formControlName="name" />-->
+<!--                <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">-->
+<!--                    Название обязательно-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="description">Описание</label>-->
+<!--                <input id="description" pInputText formControlName="description" />-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="expirationDate">Срок годности</label>-->
+<!--                <p-calendar id="expirationDate" formControlName="expirationDate" dateFormat="dd/mm/yy"></p-calendar>-->
+<!--                <div *ngIf="f.expirationDate.invalid && (f.expirationDate.dirty || f.expirationDate.touched)" class="p-error">-->
+<!--                    Укажите срок годности-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="productState">Состояние продукта</label>-->
+<!--                <p-dropdown id="productState" [options]="productStates" formControlName="productState"></p-dropdown>-->
+<!--                <div *ngIf="f.productState.invalid && (f.productState.dirty || f.productState.touched)" class="p-error">-->
+<!--                    Выберите состояние продукта-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="priority">Приоритет</label>-->
+<!--                <p-inputNumber id="priority" formControlName="priority"></p-inputNumber>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="locationId">Местоположение</label>-->
+<!--                <p-inputNumber id="locationId" formControlName="locationId" (ngModelChange)="checkLocation()"></p-inputNumber>-->
+<!--                <ng-container *ngIf="location; else locationError">-->
+<!--                    <div>-->
+<!--                        <small class="p-text-success">Местоположение найдено: {{ location.name }}</small>-->
+<!--                    </div>-->
+<!--                </ng-container>-->
+<!--                <ng-template #locationError>-->
+<!--                    <div *ngIf="f.locationId.touched">-->
+<!--                        <small class="p-text-danger p-error">Местоположение не найдено</small>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="supplierId">Поставщик</label>-->
+<!--                <p-inputNumber id="supplierId" formControlName="supplierId" (ngModelChange)="checkPartner('supplier')"></p-inputNumber>-->
+<!--                <ng-container *ngIf="supplier; else supplierError">-->
+<!--                    <div>-->
+<!--                        <small class="p-text-success">Поставщик найден: {{ supplier.name }}</small>-->
+<!--                    </div>-->
+<!--                </ng-container>-->
+<!--                <ng-template #supplierError>-->
+<!--                    <div *ngIf="f.supplierId.touched">-->
+<!--                        <small class="p-text-danger p-error">Поставщик не найден</small>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="customerId">Заказчик</label>-->
+<!--                <p-inputNumber id="customerId" formControlName="customerId" (ngModelChange)="checkPartner('customer')"></p-inputNumber>-->
+<!--                <ng-container *ngIf="customer; else customerError">-->
+<!--                    <div>-->
+<!--                        <small class="p-text-success">Заказчик найден: {{ customer.name }}</small>-->
+<!--                    </div>-->
+<!--                </ng-container>-->
+<!--                <ng-template #customerError>-->
+<!--                    <div *ngIf="f.customerId.touched">-->
+<!--                        <small class="p-text-danger p-error">Заказчик не найден</small>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="queueId">Очередь</label>-->
+<!--                <p-inputNumber id="queueId" formControlName="queueId" (ngModelChange)="checkQueue()"></p-inputNumber>-->
+<!--                <ng-container *ngIf="queue; else queueError">-->
+<!--                    <div>-->
+<!--                        <small class="p-text-success">Очередь найдена: {{ queue.sortingStation.location.name }} ({{ queue.capacity }})</small>-->
+<!--                    </div>-->
+<!--                </ng-container>-->
+<!--                <ng-template #queueError>-->
+<!--                    <div *ngIf="f.queueId.touched">-->
+<!--                        <small class="p-text-danger p-error">Очередь не найдена</small>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--            </div>-->
+
+<!--            <div class="p-field">-->
+<!--                <label for="productTypeId">Тип продукта</label>-->
+<!--                <p-inputNumber id="productTypeId" formControlName="productTypeId" (ngModelChange)="checkProductType()"></p-inputNumber>-->
+<!--                <ng-container *ngIf="productType; else productTypeError">-->
+<!--                    <div>-->
+<!--                        <small class="p-text-success">Тип продукта найден: {{ productType.name }}</small>-->
+<!--                    </div>-->
+<!--                </ng-container>-->
+<!--                <ng-template #productTypeError>-->
+<!--                    <div *ngIf="f.productTypeId.touched">-->
+<!--                        <small class="p-text-danger p-error">Тип продукта не найден</small>-->
+<!--                    </div>-->
+<!--                </ng-template>-->
+<!--            </div>-->
+
+<!--            <p-button label="Сохранить" type="submit" [disabled]="productForm.invalid || !location || !supplier || !customer || !queue || !productType"></p-button>-->
+<!--        </form>-->
+<!--    </p-card>-->
+<!--</div>-->
