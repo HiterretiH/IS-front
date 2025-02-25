@@ -6,7 +6,7 @@ import { LocationService } from '../../../services/location.service';
 import { PartnerService } from '../../../services/partner.service';
 import { QueueService } from '../../../services/queue.service';
 import { ProductTypeService } from '../../../services/product-type.service';
-import { ProductJson, LocationJson, PartnerJson, QueueJson, ProductTypeJson, ProductState } from '../../../json';
+import { ProductJson, LocationJson, PartnerJson, QueueJson, ProductTypeJson, ProductState, SortingStationJson } from '../../../json';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { SortingStationService } from '../../../services/sorting-station.service';
 
 @Component({
   selector: 'app-product-create',
@@ -41,6 +42,8 @@ export class ProductCreateComponent {
   customer: PartnerJson | null = null;
   queue: QueueJson | null = null;
   productType: ProductTypeJson | null = null;
+  product: ProductJson | null = null;
+  sortingStation: SortingStationJson | null = null;
 
   productStates = Object.values(ProductState);
 
@@ -51,9 +54,12 @@ export class ProductCreateComponent {
     private partnerService: PartnerService,
     private queueService: QueueService,
     private productTypeService: ProductTypeService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private sortingStationService: SortingStationService
   ) {
     this.productForm = this.fb.group({
+      id: [''],
+      sortingStationId: [''],
       name: ['', Validators.required],
       description: [''],
       expirationDate: [''],
@@ -105,6 +111,78 @@ export class ProductCreateComponent {
         () => this.productType = null
       );
     }
+  }
+
+  checkProduct() {
+    const productId = this.productForm.get('id')?.value;
+    if (productId) {
+      this.productService.getById(productId).subscribe(
+        (res) => this.product = res,
+        () => this.product = null
+      );
+    }
+  }
+
+  checkSortingStation() {
+    const sortingStationId = this.productForm.get('sortingStationId')?.value;
+    if (sortingStationId) {
+      this.sortingStationService.getById(sortingStationId).subscribe(
+        (res) => this.sortingStation = res,
+        () => this.sortingStation = null
+      );
+    }
+  }
+
+  disposeProduct() {
+    if (this.product) {
+      this.productService.disposeProduct(this.product.id).subscribe(
+        () => {
+          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт утилизирован!' });
+          this.productForm.reset();
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось утилизировать продукт.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Выберите продукт.' });
+    }
+  }
+  
+  sortToShip() {
+    if (this.product && this.sortingStation) {
+      this.productService.sortToShip(this.product.id, this.sortingStation.id).subscribe(
+        () => {
+          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отсортирован для отправки!' });
+          this.productForm.reset();
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для отправки.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Выберите продукт и пункт отправки.' });
+    }
+  }
+  
+  sortToStore() {
+    if (this.product && this.sortingStation) {
+      this.productService.sortToStore(this.product.id, this.sortingStation.id).subscribe(
+        () => {
+          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отсортирован для хранения!' });
+          this.productForm.reset();
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Выберите продукт и пункт хранения.' });
+    }
+  }
+
+  setProductPriority() {
+
   }
 
   onSubmit() {

@@ -1,6 +1,49 @@
 <p-toast></p-toast>
 
 <div id="form-container" class="p-card">
+  <p-card header="Управление продуктом">
+    <form [formGroup]="productForm">
+      <div class="p-field">
+        <label for="productId">ID продукта</label>
+        <p-inputNumber id="productId" formControlName="id" (ngModelChange)="checkProduct()"></p-inputNumber>
+        <ng-container *ngIf="product; else productError">
+            <div>
+          <small class="p-text-success">Продукт найден: {{ product?.name }}</small>
+        </div>
+        </ng-container>
+        <ng-template #productError>
+          <div *ngIf="f.id.touched">
+            <small class="p-text-danger p-error">Продукт не найден</small>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="p-field">
+        <label for="sortingStationId">Сортировочная станция</label>
+        <p-inputNumber id="sortingStationId" formControlName="sortingStationId" (ngModelChange)="checkSortingStation()"></p-inputNumber>
+        <ng-container *ngIf="sortingStation; else stationError">
+            <div>
+          <small class="p-text-success">Сортировочная станция найдена: {{ sortingStation.id }}</small>
+        </div>
+        </ng-container>
+        <ng-template #stationError>
+          <div *ngIf="f.sortingStationId.touched">
+            <small class="p-text-danger p-error">Сортировочная станция не найдена</small>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="card flex justify-content-center">
+        <p-button label="Сортировка для отправки" (onClick)="sortToShip()" [disabled]="!product || !sortingStation"></p-button>
+        <p-button label="Сортировка для хранения" (onClick)="sortToStore()" [disabled]="!product || !sortingStation"></p-button>
+        <p-button label="Утилизировать" severity="danger" (onClick)="disposeProduct()" [disabled]="!product"></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>
+
+
+<div id="form-container" class="p-card">
   <p-card header="Создание нового продукта">
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
       
