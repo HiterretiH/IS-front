@@ -52,6 +52,23 @@ export class WarehouseCreateComponent implements OnInit {
     // No need to load warehouses initially since it's now a manual input
   }
 
+  delete() {
+    if (this.selectedWarehouseId) {
+      this.warehouseService.deleteWarehouse(this.selectedWarehouseId).subscribe(
+        () => {
+          this.messageService.add({ severity: 'info', summary: 'Склад удалён', detail: 'Склад успешно удалён.' });
+          this.warehouseForm.reset();
+          this.selectedWarehouseId = null;
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления склада.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID склада.' });
+    }
+  }  
+
   // Handle loading warehouse by manually entered ID
   onWarehouseLoad() {
     if (this.warehouseIdInput) {

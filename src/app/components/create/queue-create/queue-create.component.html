@@ -45,7 +45,10 @@
                 </div>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="queueForm.invalid || sortingStation === null"></p-button>
+            <div class="card flex justify-content-center">
+                <p-button label="Сохранить" type="submit" [disabled]="queueForm.invalid || sortingStation === null"></p-button>
+                <p-button label="Удалить" severity="danger" (onClick)="delete()" [disabled]="!currentQueue"></p-button>
+            </div>
         </form>
     </p-card>
 </div>

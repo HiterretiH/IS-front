@@ -97,7 +97,10 @@
                 </ng-template>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="workerForm.invalid || warehouse === null"></p-button>
+            <div class="card flex justify-content-center">
+                <p-button label="Сохранить" type="submit" [disabled]="workerForm.invalid || warehouse === null"></p-button>
+                <p-button label="Удалить" severity="danger" (onClick)="delete()" [disabled]="!workerIdInput"></p-button>
+              </div>
         </form>
     </p-card>
 </div>

@@ -46,4 +46,9 @@ export class QueueService {
         this.authService.updateToken();
         return this.http.post<any>(`${this.baseUrl}`, queue, {headers: this.headers});
       }
+
+      delete(id: number): Observable<void> {
+        this.authService.updateToken();
+        return this.http.delete<void>(`${this.baseUrl}/${id}`, {headers: this.headers});
+    }
 }

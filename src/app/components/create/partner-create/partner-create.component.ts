@@ -31,8 +31,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 export class PartnerCreateComponent implements OnInit {
   partnerForm: FormGroup;
   user: UserJson = { id: 0, username: '' };
-  partnerIdInput: number | null = null;  // Store the manually entered partner ID
-  selectedPartnerId: number | null = null;  // Track the loaded partner ID
+  partnerIdInput: number | null = null;
+  selectedPartnerId: number | null = null;
 
   constructor(
       private fb: FormBuilder,
@@ -51,10 +51,8 @@ export class PartnerCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    // No need to load partners initially since it's now a manual input
   }
 
-  // Handle loading partner by manually entered ID
   onPartnerLoad() {
     if (this.partnerIdInput) {
       this.partnerService.getById(this.partnerIdInput).subscribe(
@@ -80,7 +78,7 @@ export class PartnerCreateComponent implements OnInit {
   onSubmit() {
     if (this.partnerForm.valid) {
       const partnerData: PartnerJson = {
-        id: this.selectedPartnerId || 0,  // If a partner is loaded, use its ID; otherwise, 0 for new
+        id: this.selectedPartnerId || 0,
         name: this.partnerForm.value.name,
         email: this.partnerForm.value.email,
         phoneNumber: this.partnerForm.value.phoneNumber,
@@ -88,7 +86,6 @@ export class PartnerCreateComponent implements OnInit {
       };
 
       if (this.selectedPartnerId) {
-        // Update existing partner
         this.partnerService.updatePartner(partnerData.id, partnerData).subscribe(
             () => {
               this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Партнер обновлен!' });
@@ -100,7 +97,6 @@ export class PartnerCreateComponent implements OnInit {
             }
         );
       } else {
-        // Create new partner
         this.partnerService.createPartner(partnerData).subscribe(
             () => {
               this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Партнер создан!' });
@@ -113,6 +109,23 @@ export class PartnerCreateComponent implements OnInit {
       }
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Пожалуйста, заполните все обязательные поля.' });
+    }
+  }
+
+  delete() {
+    if (this.selectedPartnerId) {
+      this.partnerService.deletePartner(this.selectedPartnerId).subscribe(
+        () => {
+          this.messageService.add({ severity: 'info', summary: 'Партнер удален', detail: 'Партнер успешно удален.' });
+          this.partnerForm.reset();
+          this.selectedPartnerId = null;
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления партнера.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID партнера.' });
     }
   }
 

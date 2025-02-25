@@ -44,7 +44,7 @@ export class ProductCreateComponent {
   productType: ProductTypeJson | null = null;
   product: ProductJson | null = null;
   sortingStation: SortingStationJson | null = null;
-  currentProduct: ProductJson | null = null; // For holding current product if editing
+  currentProduct: ProductJson | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -205,6 +205,11 @@ export class ProductCreateComponent {
     }
   }
 
+  setProductPriority() {
+
+  }
+
+  // Load the product for editing using the provided product ID
   onProductLoad() {
     if (this.productIdInput) {
       this.productService.getById(parseInt(this.productIdInput, 10)).subscribe(
@@ -234,7 +239,6 @@ export class ProductCreateComponent {
     }
   }
 
-  // Handle the form submission for creating or updating a product
   onSubmit() {
     if (this.productForm.valid) {
       if (!this.location || !this.supplier || !this.customer || !this.productType) {
@@ -257,7 +261,7 @@ export class ProductCreateComponent {
       };
 
       const productRequest$ = this.currentProduct
-          ? this.productService.updateProduct(productData.id, productData) // Update if editing
+          ? this.productService.updateProduct(productData.id, productData)
           : this.productService.createProduct(productData);
 
       productRequest$.subscribe(

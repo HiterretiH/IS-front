@@ -78,7 +78,10 @@
                 </div>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="sortingStationForm.invalid || warehouse === null || location === null"></p-button>
+            <div class="card flex justify-content-center">
+                <p-button label="Сохранить" type="submit" [disabled]="sortingStationForm.invalid || warehouse === null || location === null"></p-button>
+                <p-button label="Удалить" severity="danger" (onClick)="delete()" [disabled]="!selectedStationId"></p-button>
+            </div>
         </form>
     </p-card>
 </div>

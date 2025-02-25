@@ -2,8 +2,6 @@
 
 <div id="form-container" class="p-card">
     <p-card header="Создание / Обновление партнера">
-
-        <!-- Input field for entering the partner ID -->
         <div class="p-field">
             <label for="partnerId">Введите ID партнера для обновления</label>
             <br/>
@@ -49,7 +47,10 @@
                 <textarea id="address" pInputText formControlName="address"></textarea>
             </div>
 
-            <p-button label="Сохранить" type="submit" [disabled]="partnerForm.invalid"></p-button>
+            <div class="card flex justify-content-center">
+                <p-button label="Сохранить" type="submit" [disabled]="partnerForm.invalid"></p-button>
+                <p-button label="Удалить" severity="danger" (onClick)="delete()" [disabled]="!selectedPartnerId"></p-button>
+            </div>
         </form>
     </p-card>
 </div>

@@ -58,6 +58,23 @@ export class WorkerCreateComponent {
     this.user.username = this.authService.username;
   }
 
+  delete() {
+    if (this.workerIdInput) {
+      this.workerService.deleteWorker(parseInt(this.workerIdInput)).subscribe(
+        () => {
+          this.messageService.add({ severity: 'info', summary: 'Работник удалён', detail: 'Работник успешно удалён.' });
+          this.workerForm.reset();
+          this.workerIdInput = '';
+        },
+        () => {
+          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Ошибка удаления работника.' });
+        }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID работника.' });
+    }
+  } 
+
   checkWarehouse() {
     const warehouseId = this.workerForm.get('warehouseId')?.value;
     if (warehouseId) {
