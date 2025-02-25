@@ -31,7 +31,8 @@ export class ProductService {
     }
 
     createProduct(product: any): Observable<any> {
+        console.log(product);
         this.authService.updateToken();
-        return this.http.post<any>(`${this.baseUrl}`, product);
+        return this.http.post<any>(`${this.baseUrl}`, product, {headers: this.headers});
       }
 }

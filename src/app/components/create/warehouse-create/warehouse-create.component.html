@@ -1,30 +1,40 @@
 <p-toast></p-toast>
 
 <div id="form-container" class="p-card">
-  <p-card header="Создание нового склада">
-    <form [formGroup]="warehouseForm" (ngSubmit)="onSubmit()">
-      
-      <div class="p-field">
-        <label for="name">Название</label>
-        <br/>
-        <input id="name" pInputText formControlName="name" />
-        <br/>
-        <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">
-          Название обязательно
-        </div>
-      </div>
+    <p-card header="Создание / Обновление склада">
 
-      <div class="p-field">
-        <label for="address">Адрес</label>
-        <br/>
-        <textarea id="address" pInputText formControlName="address"></textarea>
-        <br/>
-        <div *ngIf="f.address.invalid && (f.address.dirty || f.address.touched)" class="p-error">
-          Адрес обязателен
+        <!-- Input field for entering the warehouse ID -->
+        <div class="p-field">
+            <label for="warehouseId">Введите ID склада для обновления</label>
+            <br/>
+            <input id="warehouseId" pInputText [(ngModel)]="warehouseIdInput" placeholder="Введите ID склада" />
+            <br/>
+            <p-button label="Загрузить склад" (onClick)="onWarehouseLoad()"></p-button>
         </div>
-      </div>
 
-      <p-button label="Создать" type="submit" [disabled]="warehouseForm.invalid"></p-button>
-    </form>
-  </p-card>
+        <form [formGroup]="warehouseForm" (ngSubmit)="onSubmit()">
+
+            <div class="p-field">
+                <label for="name">Название</label>
+                <br/>
+                <input id="name" pInputText formControlName="name" />
+                <br/>
+                <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">
+                    Название обязательно
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="address">Адрес</label>
+                <br/>
+                <textarea id="address" pInputText formControlName="address"></textarea>
+                <br/>
+                <div *ngIf="f.address.invalid && (f.address.dirty || f.address.touched)" class="p-error">
+                    Адрес обязателен
+                </div>
+            </div>
+
+            <p-button label="Сохранить" type="submit" [disabled]="warehouseForm.invalid"></p-button>
+        </form>
+    </p-card>
 </div>

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment.development";
 import { AuthService } from "./auth.service";
+import { QueueJson } from '../json';
 
 @Injectable({
     providedIn: 'root'
@@ -29,4 +30,15 @@ export class QueueService {
             headers: this.headers
         });
     }
+
+    getById(id: number): Observable<QueueJson> {
+        this.authService.updateToken();
+        return this.http.get<QueueJson>(`${this.baseUrl}/${id}`, {headers: this.headers});
+      }
+
+      createQueue(queue: any): Observable<any> {
+        console.log(queue);
+        this.authService.updateToken();
+        return this.http.post<any>(`${this.baseUrl}`, queue, {headers: this.headers});
+      }
 }

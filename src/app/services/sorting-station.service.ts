@@ -33,14 +33,12 @@ export class SortingStationService {
 
     getById(id: number): Observable<SortingStationJson> {
         this.authService.updateToken();
-        return this.http.get<SortingStationJson>(`${this.baseUrl}/${id}`, { headers: this.authService.headers });
+        return this.http.get<SortingStationJson>(`${this.baseUrl}/${id}`, {headers: this.headers});
     }
 
     create(sortingStation: SortingStationJson): Observable<void> {
         this.authService.updateToken();
-        return this.http.post<void>(this.baseUrl, sortingStation, {
-            headers: this.headers
-        });
+        return this.http.post<void>(this.baseUrl, sortingStation, {headers: this.headers});
     }
 
     update(id: number, sortingStation: SortingStationJson): Observable<SortingStationJson> {
@@ -50,15 +48,11 @@ export class SortingStationService {
 
     delete(id: number): Observable<void> {
         this.authService.updateToken();
-        return this.http.delete<void>(`${this.baseUrl}/${id}`, {
-            headers: this.headers
-        });
+        return this.http.delete<void>(`${this.baseUrl}/${id}`, {headers: this.headers});
     }
 
     simulateSort(id: number): Observable<void> {
         this.authService.updateToken();
-        return this.http.post<void>(`${this.baseUrl}/${id}/simulate-sort`, {
-            headers: this.headers
-        });
+        return this.http.post<void>(`${this.baseUrl}/${id}/simulate-sort`, {headers: this.headers});
     }
 }
