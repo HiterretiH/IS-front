@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment.development";
 import { AuthService } from "./auth.service";
-import {ProductJson, QueueJson, WorkerJson} from "../json";
+import {PartnerJson, ProductJson, QueueJson, WorkerJson} from "../json";
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class ProductService {
 
     getProducts(page: number, size: number): Observable<{ data: any[], total: number }> {
         this.authService.updateToken();
-        
+
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
@@ -31,18 +31,39 @@ export class ProductService {
         });
     }
 
+    createProduct(product: ProductJson): Observable<ProductJson> {
+        this.authService.updateToken();
+        return this.http.post<ProductJson>(`${this.baseUrl}`, product, {headers: this.headers});
+    }
+
+    updateProduct(id: number, product: ProductJson): Observable<ProductJson> {
+        this.authService.updateToken();
+        return this.http.put<ProductJson>(`${this.baseUrl}/${id}`, product, { headers: this.authService.headers });
+    }
+
     getById(id: number): Observable<ProductJson> {
         this.authService.updateToken();
         return this.http.get<ProductJson>(`${this.baseUrl}/${id}`, {headers: this.headers});
     }
 
-    updateProduct(id: number, product: ProductJson): Observable<ProductJson> {
+    disposeProduct(id: number): Observable<any> {
         this.authService.updateToken();
-        return this.http.put<ProductJson>(`${this.baseUrl}/${id}`, product, { headers: this.headers });
+        return this.http.put<any>(`${this.baseUrl}/${id}/dispose`, {}, { headers: this.headers });
     }
 
-    createProduct(product: ProductJson): Observable<ProductJson> {
+    sortToShip(id: number, stationId: number): Observable<any> {
         this.authService.updateToken();
-        return this.http.post<ProductJson>(`${this.baseUrl}`, product, {headers: this.headers});
-      }
+        return this.http.put<any>(`${this.baseUrl}/${id}/sort-to-ship/${stationId}`, {}, { headers: this.headers });
+    }
+
+    sortToStore(id: number, stationId: number): Observable<any> {
+        this.authService.updateToken();
+        return this.http.put<any>(`${this.baseUrl}/${id}/sort-to-store/${stationId}`, {}, { headers: this.headers });
+    }
+
+    setProductPriority(id: number, priority: number): Observable<any> {
+        this.authService.updateToken();
+        const params = new HttpParams().set('priority', priority.toString());
+        return this.http.put<any>(`${this.baseUrl}/${id}/priority`, {}, { headers: this.headers, params });
+    }
 }
