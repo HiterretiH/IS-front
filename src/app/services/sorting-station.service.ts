@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment.development";
 import { AuthService } from "./auth.service";
-import { SortingStationJson } from '../json';
+import {PartnerJson, SortingStationJson} from '../json';
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +33,7 @@ export class SortingStationService {
 
     getById(id: number): Observable<SortingStationJson> {
         this.authService.updateToken();
-        return this.http.get<SortingStationJson>(`${this.baseUrl}/${id}`);
+        return this.http.get<SortingStationJson>(`${this.baseUrl}/${id}`, { headers: this.authService.headers });
     }
 
     create(sortingStation: SortingStationJson): Observable<void> {
@@ -41,6 +41,11 @@ export class SortingStationService {
         return this.http.post<void>(this.baseUrl, sortingStation, {
             headers: this.headers
         });
+    }
+
+    update(id: number, sortingStation: SortingStationJson): Observable<SortingStationJson> {
+        this.authService.updateToken();
+        return this.http.put<SortingStationJson>(`${this.baseUrl}/${id}`, sortingStation, { headers: this.authService.headers });
     }
 
     delete(id: number): Observable<void> {

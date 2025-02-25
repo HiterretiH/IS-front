@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
-import { PartnerJson } from '../json';
+import {LocationJson, PartnerJson} from '../json';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,11 @@ export class PartnerService {
   createPartner(partner: PartnerJson): Observable<PartnerJson> {
     this.authService.updateToken();
     return this.http.post<PartnerJson>(`${this.baseUrl}`, partner, { headers: this.authService.headers });
+  }
+
+  updatePartner(id: number, partner: PartnerJson): Observable<PartnerJson> {
+    this.authService.updateToken();
+    return this.http.put<PartnerJson>(`${this.baseUrl}/${id}`, partner, { headers: this.authService.headers });
   }
 
   getById(id: number): Observable<PartnerJson> {

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PartnerService } from '../../../services/partner.service';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
@@ -21,21 +21,24 @@ import { InputNumberModule } from 'primeng/inputnumber';
     InputTextModule,
     ToastModule,
     CommonModule,
-    InputNumberModule
+    InputNumberModule,
+    FormsModule
   ],
   templateUrl: './partner-create.component.html',
   styleUrls: ['./partner-create.component.css'],
   providers: [MessageService]
 })
-export class PartnerCreateComponent {
+export class PartnerCreateComponent implements OnInit {
   partnerForm: FormGroup;
   user: UserJson = { id: 0, username: '' };
+  partnerIdInput: number | null = null;  // Store the manually entered partner ID
+  selectedPartnerId: number | null = null;  // Track the loaded partner ID
 
   constructor(
-    private fb: FormBuilder,
-    private partnerService: PartnerService,
-    private authService: AuthService,
-    private messageService: MessageService
+      private fb: FormBuilder,
+      private partnerService: PartnerService,
+      private authService: AuthService,
+      private messageService: MessageService
   ) {
     this.partnerForm = this.fb.group({
       name: [null, [Validators.required, Validators.maxLength(150)]],
@@ -47,25 +50,67 @@ export class PartnerCreateComponent {
     this.user.username = this.authService.username;
   }
 
+  ngOnInit() {
+    // No need to load partners initially since it's now a manual input
+  }
+
+  // Handle loading partner by manually entered ID
+  onPartnerLoad() {
+    if (this.partnerIdInput) {
+      this.partnerService.getById(this.partnerIdInput).subscribe(
+          (partner: PartnerJson) => {
+            this.selectedPartnerId = partner.id;
+            this.partnerForm.patchValue({
+              name: partner.name,
+              email: partner.email,
+              phoneNumber: partner.phoneNumber,
+              address: partner.address
+            });
+            this.messageService.add({ severity: 'info', summary: 'Партнер загружен', detail: 'Данные партнера загружены.' });
+          },
+          () => {
+            this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось найти партнера.' });
+          }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID партнера.' });
+    }
+  }
+
   onSubmit() {
     if (this.partnerForm.valid) {
       const partnerData: PartnerJson = {
-        id: 0,
+        id: this.selectedPartnerId || 0,  // If a partner is loaded, use its ID; otherwise, 0 for new
         name: this.partnerForm.value.name,
         email: this.partnerForm.value.email,
         phoneNumber: this.partnerForm.value.phoneNumber,
         address: this.partnerForm.value.address
       };
 
-      this.partnerService.createPartner(partnerData).subscribe(
-        () => {
-          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Партнер создан!' });
-          this.partnerForm.reset();
-        },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать партнера.' });
-        }
-      );
+      if (this.selectedPartnerId) {
+        // Update existing partner
+        this.partnerService.updatePartner(partnerData.id, partnerData).subscribe(
+            () => {
+              this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Партнер обновлен!' });
+              this.partnerForm.reset();
+              this.selectedPartnerId = null;
+            },
+            () => {
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось обновить партнера.' });
+            }
+        );
+      } else {
+        // Create new partner
+        this.partnerService.createPartner(partnerData).subscribe(
+            () => {
+              this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Партнер создан!' });
+              this.partnerForm.reset();
+            },
+            () => {
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать партнера.' });
+            }
+        );
+      }
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Пожалуйста, заполните все обязательные поля.' });
     }

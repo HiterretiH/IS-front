@@ -47,11 +47,11 @@ export class LocationService {
 
   updateLocation(id: number, location: LocationJson): Observable<LocationJson> {
     this.authService.updateToken();
-    return this.http.put<LocationJson>(`${this.baseUrl}/update/${id}`, location, { headers: this.authService.headers });
+    return this.http.put<LocationJson>(`${this.baseUrl}/${id}`, location, { headers: this.authService.headers });
   }
 
   deleteLocation(id: number): Observable<void> {
     this.authService.updateToken();
-    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`, { headers: this.authService.headers });
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.authService.headers });
   }
 }

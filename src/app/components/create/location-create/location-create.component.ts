@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
@@ -21,21 +21,24 @@ import { LocationJson, UserJson } from '../../../json';
     InputTextModule,
     ToastModule,
     CommonModule,
-    InputNumberModule
+    InputNumberModule,
+    FormsModule
   ],
   templateUrl: './location-create.component.html',
   styleUrls: ['./location-create.component.css'],
   providers: [MessageService]
 })
-export class LocationCreateComponent {
+export class LocationCreateComponent implements OnInit {
   locationForm: FormGroup;
   user: UserJson = { id: 0, username: '' };
+  locationIdInput: number | null = null; // Store the manually entered location ID
+  selectedLocationId: number | null = null; // Track the loaded location ID
 
   constructor(
-    private fb: FormBuilder,
-    private locationService: LocationService,
-    private authService: AuthService,
-    private messageService: MessageService
+      private fb: FormBuilder,
+      private locationService: LocationService,
+      private authService: AuthService,
+      private messageService: MessageService
   ) {
     this.locationForm = this.fb.group({
       name: [null, [Validators.required, Validators.maxLength(150)]],
@@ -46,24 +49,65 @@ export class LocationCreateComponent {
     this.user.username = this.authService.username;
   }
 
+  ngOnInit() {
+    // No need to load locations initially since it's now a manual input
+  }
+
+  // Handle loading location by manually entered ID
+  onLocationLoad() {
+    if (this.locationIdInput) {
+      this.locationService.getById(this.locationIdInput).subscribe(
+          (location: LocationJson) => {
+            this.selectedLocationId = location.id;
+            this.locationForm.patchValue({
+              name: location.name,
+              description: location.description,
+              locationRow: location.locationRow
+            });
+            this.messageService.add({ severity: 'info', summary: 'Локация загружена', detail: 'Данные локации загружены.' });
+          },
+          () => {
+            this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось найти локацию.' });
+          }
+      );
+    } else {
+      this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Введите корректный ID локации.' });
+    }
+  }
+
   onSubmit() {
     if (this.locationForm.valid) {
       const locationData: LocationJson = {
-        id: 0,
+        id: this.selectedLocationId || 0,
         name: this.locationForm.value.name,
         description: this.locationForm.value.description,
         locationRow: this.locationForm.value.locationRow
       };
 
-      this.locationService.createLocation(locationData).subscribe(
-        () => {
-          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Локация создана!' });
-          this.locationForm.reset();
-        },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать локацию.' });
-        }
-      );
+      if (this.selectedLocationId) {
+        // Update location
+        this.locationService.updateLocation(locationData.id, locationData).subscribe(
+            () => {
+              this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Локация обновлена!' });
+              this.locationForm.reset();
+              this.selectedLocationId = null;
+            },
+            () => {
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось обновить локацию.' });
+            }
+        );
+      } else {
+        // Create new location
+        this.locationService.createLocation(locationData).subscribe(
+            () => {
+              this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Локация создана!' });
+              this.locationForm.reset();
+            },
+            () => {
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать локацию.' });
+            }
+        );
+      }
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Пожалуйста, заполните все обязательные поля.' });
     }

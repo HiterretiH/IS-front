@@ -1,78 +1,84 @@
 <p-toast></p-toast>
 
 <div id="form-container" class="p-card">
-  <p-card header="Создание новой сортировочной станции">
-    <form [formGroup]="sortingStationForm" (ngSubmit)="onSubmit()">
-      
-      <div class="p-field">
-        <label for="warehouseId">Склад</label>
-        <input 
-          id="warehouseId" 
-          pInputText 
-          formControlName="warehouseId" 
-          (ngModelChange)="checkWarehouse()" 
-          [ngModel]="sortingStationForm.value.warehouseId" 
-        />
-        <div *ngIf="f.warehouseId.invalid && (f.warehouseId.dirty || f.warehouseId.touched); else invalidWarehouse" class="p-error">
-            Склад обязателен
-          </div>
-  
-          <ng-template #invalidWarehouse>
-              <div *ngIf="warehouse !== null">
-                  <div *ngIf="warehouse">
-                    <small class="p-text-success">Склад найден: {{ warehouse.name }}</small>
-                  </div>
-                </div>
-        
-                <div *ngIf="warehouse === null && f.warehouseId.touched">
-                  <small class="p-text-danger p-error">Склад не найден. Пожалуйста, выберите правильный склад.</small>
-                </div>
-          </ng-template>
-      </div>
-
-      <div class="p-field">
-        <label for="locationId">Местоположение</label>
-        <input 
-          id="locationId" 
-          pInputText 
-          formControlName="locationId" 
-          (ngModelChange)="checkLocation()" 
-          [ngModel]="sortingStationForm.value.locationId" 
-        />
-        <div *ngIf="f.locationId.invalid && (f.locationId.dirty || f.locationId.touched); else invalidLocation" class="p-error">
-            Местоположение обязательно
-          </div>
-  
-          <ng-template #invalidLocation>
-              <div *ngIf="location !== null">
-                  <div *ngIf="location">
-                    <small class="p-text-success">Местоположение найдено: {{ location.name }}</small>
-                  </div>
-                </div>
-        
-                <div *ngIf="location === null && f.locationId.touched">
-                  <small class="p-text-danger p-error">Местоположение не найдено. Пожалуйста, выберите правильное местоположение.</small>
-                </div>
-          </ng-template>
-      </div>
-
-      <div class="p-field">
-        <label for="capacity">Вместимость</label>
-        <input id="capacity" pInputText formControlName="capacity" />
-        <div *ngIf="f.capacity.invalid && (f.capacity.dirty || f.capacity.touched)" class="p-error">
-          Вместимость обязательна
+    <p-card header="Создание / Обновление сортировочной станции">
+        <div class="p-field">
+            <label for="stationId">Введите ID сортировочной станции для обновления</label>
+            <br/>
+            <input id="stationId" pInputText [(ngModel)]="stationIdInput" placeholder="Введите ID сортировочной станции" />
+            <br/>
+            <p-button label="Загрузить сортировочную станцию" (onClick)="onStationLoad()"></p-button>
         </div>
-      </div>
 
-      <div class="p-field">
-        <label for="sortTimeSeconds">Время сортировки (сек)</label>
-        <input id="sortTimeSeconds" pInputText formControlName="sortTimeSeconds" />
-        <div *ngIf="f.sortTimeSeconds.invalid && (f.sortTimeSeconds.dirty || f.sortTimeSeconds.touched)" class="p-error">
-          Время сортировки обязательно
-        </div>
-      </div>
+        <form [formGroup]="sortingStationForm" (ngSubmit)="onSubmit()">
 
-      <p-button label="Создать" type="submit" [disabled]="sortingStationForm.invalid || warehouse === null || location === null"></p-button>
-    </form>
-  </p-card>
+            <div class="p-field">
+                <label for="warehouseId">Склад</label>
+                <input
+                        id="warehouseId"
+                        pInputText
+                        formControlName="warehouseId"
+                        (ngModelChange)="checkWarehouse()"
+                />
+                <div *ngIf="f.warehouseId.invalid && (f.warehouseId.dirty || f.warehouseId.touched); else invalidWarehouse" class="p-error">
+                    Склад обязателен
+                </div>
+
+                <ng-template #invalidWarehouse>
+                    <div *ngIf="warehouse !== null">
+                        <div *ngIf="warehouse">
+                            <small class="p-text-success">Склад найден: {{ warehouse.name }}</small>
+                        </div>
+                    </div>
+
+                    <div *ngIf="warehouse === null && f.warehouseId.touched">
+                        <small class="p-text-danger p-error">Склад не найден. Пожалуйста, выберите правильный склад.</small>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="p-field">
+                <label for="locationId">Местоположение</label>
+                <input
+                        id="locationId"
+                        pInputText
+                        formControlName="locationId"
+                        (ngModelChange)="checkLocation()"
+                />
+                <div *ngIf="f.locationId.invalid && (f.locationId.dirty || f.locationId.touched); else invalidLocation" class="p-error">
+                    Местоположение обязательно
+                </div>
+
+                <ng-template #invalidLocation>
+                    <div *ngIf="location !== null">
+                        <div *ngIf="location">
+                            <small class="p-text-success">Местоположение найдено: {{ location.name }}</small>
+                        </div>
+                    </div>
+
+                    <div *ngIf="location === null && f.locationId.touched">
+                        <small class="p-text-danger p-error">Местоположение не найдено. Пожалуйста, выберите правильное местоположение.</small>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="p-field">
+                <label for="capacity">Вместимость</label>
+                <input id="capacity" pInputText formControlName="capacity" />
+                <div *ngIf="f.capacity.invalid && (f.capacity.dirty || f.capacity.touched)" class="p-error">
+                    Вместимость обязательна
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="sortTimeSeconds">Время сортировки (сек)</label>
+                <input id="sortTimeSeconds" pInputText formControlName="sortTimeSeconds" />
+                <div *ngIf="f.sortTimeSeconds.invalid && (f.sortTimeSeconds.dirty || f.sortTimeSeconds.touched)" class="p-error">
+                    Время сортировки обязательно
+                </div>
+            </div>
+
+            <p-button label="Сохранить" type="submit" [disabled]="sortingStationForm.invalid || warehouse === null || location === null"></p-button>
+        </form>
+    </p-card>
 </div>

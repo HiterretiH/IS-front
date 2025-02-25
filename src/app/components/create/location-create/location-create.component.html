@@ -1,35 +1,44 @@
 <p-toast></p-toast>
 
 <div id="form-container" class="p-card">
-  <p-card header="Создание новой локации">
-    <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
-      <div class="p-field">
-        <label for="name">Название</label>
-        <br/>
-        <input id="name" pInputText formControlName="name" />
-        <br/>
-        <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">
-          Название обязательно
+    <p-card header="Создание / Обновление локации">
+        <!-- Input field for entering the location ID -->
+        <div class="p-field">
+            <label for="locationId">Введите ID локации для обновления</label>
+            <br/>
+            <input id="locationId" pInputText [(ngModel)]="locationIdInput" placeholder="Введите ID локации" />
+            <br/>
+            <p-button label="Загрузить локацию" (onClick)="onLocationLoad()"></p-button>
         </div>
-      </div>
 
-      <div class="p-field">
-        <label for="description">Описание</label>
-        <br/>
-        <textarea id="description" pInputText formControlName="description"></textarea>
-      </div>
+        <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+            <div class="p-field">
+                <label for="name">Название</label>
+                <br/>
+                <input id="name" pInputText formControlName="name" />
+                <br/>
+                <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">
+                    Название обязательно
+                </div>
+            </div>
 
-      <div class="p-field">
-        <label for="locationRow">Ряд локации</label>
-        <br/>
-        <p-inputNumber inputId="locationRow" formControlName="locationRow" />
-        <br/>
-        <div *ngIf="f.locationRow.invalid && (f.locationRow.dirty || f.locationRow.touched)" class="p-error">
-          Ряд локации обязателен
-        </div>
-      </div>
+            <div class="p-field">
+                <label for="description">Описание</label>
+                <br/>
+                <textarea id="description" pInputText formControlName="description"></textarea>
+            </div>
 
-      <p-button label="Создать" type="submit" [disabled]="locationForm.invalid"></p-button>
-    </form>
-  </p-card>
+            <div class="p-field">
+                <label for="locationRow">Ряд локации</label>
+                <br/>
+                <p-inputNumber inputId="locationRow" formControlName="locationRow" />
+                <br/>
+                <div *ngIf="f.locationRow.invalid && (f.locationRow.dirty || f.locationRow.touched)" class="p-error">
+                    Ряд локации обязателен
+                </div>
+            </div>
+
+            <p-button label="Сохранить" type="submit" [disabled]="locationForm.invalid"></p-button>
+        </form>
+    </p-card>
 </div>
