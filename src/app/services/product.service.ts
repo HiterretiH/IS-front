@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from "../../environments/environment.development";
 import { AuthService } from "./auth.service";
+import {ProductJson, QueueJson, WorkerJson} from "../json";
 
 @Injectable({
     providedIn: 'root'
@@ -30,9 +31,18 @@ export class ProductService {
         });
     }
 
-    createProduct(product: any): Observable<any> {
-        console.log(product);
+    getById(id: number): Observable<ProductJson> {
         this.authService.updateToken();
-        return this.http.post<any>(`${this.baseUrl}`, product, {headers: this.headers});
+        return this.http.get<ProductJson>(`${this.baseUrl}/${id}`, {headers: this.headers});
+    }
+
+    updateProduct(id: number, product: ProductJson): Observable<ProductJson> {
+        this.authService.updateToken();
+        return this.http.put<ProductJson>(`${this.baseUrl}/${id}`, product, { headers: this.headers });
+    }
+
+    createProduct(product: ProductJson): Observable<ProductJson> {
+        this.authService.updateToken();
+        return this.http.post<ProductJson>(`${this.baseUrl}`, product, {headers: this.headers});
       }
 }

@@ -33,21 +33,21 @@ export class WarehouseService {
 
   createWarehouse(warehouse: WarehouseJson): Observable<WarehouseJson> {
     this.authService.updateToken();
-    return this.http.post<WarehouseJson>(`${this.baseUrl}`, warehouse, { headers: this.authService.headers });
+    return this.http.post<WarehouseJson>(`${this.baseUrl}`, warehouse, { headers: this.headers });
   }
 
   getById(id: number): Observable<WarehouseJson> {
     this.authService.updateToken();
-    return this.http.get<WarehouseJson>(`${this.baseUrl}/${id}`, { headers: this.authService.headers });
+    return this.http.get<WarehouseJson>(`${this.baseUrl}/${id}`, { headers: this.headers });
   }
 
   deleteWarehouse(id: number): Observable<void> {
     this.authService.updateToken();
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.authService.headers });
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.headers });
   }
 
   updateWarehouse(id: number, warehouse: WarehouseJson): Observable<WarehouseJson> {
     this.authService.updateToken();
-    return this.http.put<WarehouseJson>(`${this.baseUrl}/update/${id}`, location, { headers: this.authService.headers });
+    return this.http.put<WarehouseJson>(`${this.baseUrl}/${id}`, warehouse, { headers: this.headers });
   }
 }

@@ -1,97 +1,103 @@
 <p-toast></p-toast>
 
 <div id="form-container" class="p-card">
-  <p-card header="Создание нового рабочего">
-    <form [formGroup]="workerForm" (ngSubmit)="onSubmit()">
-      
-      <div class="p-field">
-        <label for="firstName">Имя</label>
-        <br/>
-        <input id="firstName" pInputText formControlName="firstName" />
-        <br/>
-        <div *ngIf="f.firstName.invalid && (f.firstName.dirty || f.firstName.touched)" class="p-error">
-          Имя обязательно
-        </div>
-      </div>
-
-      <div class="p-field">
-        <label for="lastName">Фамилия</label>
-        <br/>
-        <input id="lastName" pInputText formControlName="lastName" />
-        <br/>
-        <div *ngIf="f.lastName.invalid && (f.lastName.dirty || f.lastName.touched)" class="p-error">
-          Фамилия обязательна
-        </div>
-      </div>
-
-      <div class="p-field">
-        <label for="middleName">Отчество</label>
-        <br/>
-        <input id="middleName" pInputText formControlName="middleName" />
-        <br/>
-        <div *ngIf="f.middleName.invalid && (f.middleName.dirty || f.middleName.touched)" class="p-error">
-          Отчество обязательно
-        </div>
-      </div>
-
-      <div class="p-field">
-        <label for="birthDate">Дата рождения</label>
-        <br/>
-        <p-calendar id="birthDate" formControlName="birthDate"></p-calendar>
-        <br/>
-        <div *ngIf="f.birthDate.invalid && (f.birthDate.dirty || f.birthDate.touched)" class="p-error">
-          Дата рождения обязательна
-        </div>
-      </div>
-
-      <div class="p-field">
-        <label for="hireDate">Дата найма</label>
-        <br/>
-        <p-calendar id="hireDate" formControlName="hireDate"></p-calendar>
-        <br/>
-        <div *ngIf="f.hireDate.invalid && (f.hireDate.dirty || f.hireDate.touched)" class="p-error">
-          Дата найма обязательна
-        </div>
-      </div>
-
-      <div class="p-field">
-        <label for="status">Статус</label>
-        <p-dropdown id="status" formControlName="status" [options]="statuses"></p-dropdown>
-        <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched)" class="p-error">
-          Статус обязателен
-        </div>
-      </div>
-
-      <div class="p-field">
-        <label for="warehouseId">Склад</label>
-        <br/>
-        <input 
-          id="warehouseId" 
-          pInputText 
-          formControlName="warehouseId" 
-          (ngModelChange)="checkWarehouse()" 
-          [ngModel]="workerForm.value.warehouseId" 
-        />
-        <br/>
-        
-        <div *ngIf="f.warehouseId.invalid && (f.warehouseId.dirty || f.warehouseId.touched); else invalid" class="p-error">
-          Склад обязателен
+    <p-card header="Создание / Обновление рабочего">
+        <div class="p-field">
+            <label for="workerId">Введите ID рабочего для обновления</label>
+            <br/>
+            <input id="workerId" pInputText [(ngModel)]="workerIdInput" placeholder="Введите ID рабочего" />
+            <br/>
+            <p-button label="Загрузить рабочего" (onClick)="onWorkerLoad()"></p-button>
         </div>
 
-        <ng-template #invalid>
-            <div *ngIf="warehouse !== null">
-                <div *ngIf="warehouse">
-                  <small class="p-text-success">Склад найден: {{ warehouse.name }}</small>
+        <form [formGroup]="workerForm" (ngSubmit)="onSubmit()">
+            <div class="p-field">
+                <label for="firstName">Имя</label>
+                <br/>
+                <input id="firstName" pInputText formControlName="firstName" />
+                <br/>
+                <div *ngIf="f.firstName.invalid && (f.firstName.dirty || f.firstName.touched)" class="p-error">
+                    Имя обязательно
                 </div>
-              </div>
-      
-              <div *ngIf="warehouse === null && f.warehouseId.touched">
-                <small class="p-text-danger p-error">Склад не найден. Пожалуйста, выберите правильный склад.</small>
-              </div>
-        </ng-template>
-      </div>
+            </div>
 
-      <p-button label="Создать" type="submit" [disabled]="workerForm.invalid || warehouse === null"></p-button>
-    </form>
-  </p-card>
+            <div class="p-field">
+                <label for="lastName">Фамилия</label>
+                <br/>
+                <input id="lastName" pInputText formControlName="lastName" />
+                <br/>
+                <div *ngIf="f.lastName.invalid && (f.lastName.dirty || f.lastName.touched)" class="p-error">
+                    Фамилия обязательна
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="middleName">Отчество</label>
+                <br/>
+                <input id="middleName" pInputText formControlName="middleName" />
+                <br/>
+                <div *ngIf="f.middleName.invalid && (f.middleName.dirty || f.middleName.touched)" class="p-error">
+                    Отчество обязательно
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="birthDate">Дата рождения</label>
+                <br/>
+                <p-calendar id="birthDate" formControlName="birthDate"></p-calendar>
+                <br/>
+                <div *ngIf="f.birthDate.invalid && (f.birthDate.dirty || f.birthDate.touched)" class="p-error">
+                    Дата рождения обязательна
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="hireDate">Дата найма</label>
+                <br/>
+                <p-calendar id="hireDate" formControlName="hireDate"></p-calendar>
+                <br/>
+                <div *ngIf="f.hireDate.invalid && (f.hireDate.dirty || f.hireDate.touched)" class="p-error">
+                    Дата найма обязательна
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="status">Статус</label>
+                <p-dropdown id="status" formControlName="status" [options]="statuses"></p-dropdown>
+                <div *ngIf="f.status.invalid && (f.status.dirty || f.status.touched)" class="p-error">
+                    Статус обязателен
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="warehouseId">Склад</label>
+                <br/>
+                <input
+                        id="warehouseId"
+                        pInputText
+                        formControlName="warehouseId"
+                        (ngModelChange)="checkWarehouse()"
+                />
+                <br/>
+
+                <div *ngIf="f.warehouseId.invalid && (f.warehouseId.dirty || f.warehouseId.touched); else invalid" class="p-error">
+                    Склад обязателен
+                </div>
+
+                <ng-template #invalid>
+                    <div *ngIf="warehouse !== null">
+                        <div *ngIf="warehouse">
+                            <small class="p-text-success">Склад найден: {{ warehouse.name }}</small>
+                        </div>
+                    </div>
+
+                    <div *ngIf="warehouse === null && f.warehouseId.touched">
+                        <small class="p-text-danger p-error">Склад не найден. Пожалуйста, выберите правильный склад.</small>
+                    </div>
+                </ng-template>
+            </div>
+
+            <p-button label="Сохранить" type="submit" [disabled]="workerForm.invalid || warehouse === null"></p-button>
+        </form>
+    </p-card>
 </div>

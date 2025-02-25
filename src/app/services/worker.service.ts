@@ -41,6 +41,11 @@ export class WorkerService {
     return this.http.post<WorkerJson>(this.baseUrl, worker, { headers: this.headers });
   }
 
+  updateWorker(id: number, worker: WorkerJson): Observable<WorkerJson> {
+    this.authService.updateToken();
+    return this.http.put<WorkerJson>(`${this.baseUrl}/${id}`, worker, { headers: this.headers });
+  }
+
   deleteWorker(id: number): Observable<void> {
     this.authService.updateToken();
     return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.headers });

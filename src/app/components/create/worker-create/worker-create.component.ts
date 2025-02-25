@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import { WorkerService } from '../../../services/worker.service';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '../../../services/auth.service';
@@ -24,7 +24,8 @@ import { WarehouseService } from '../../../services/warehouse.service';
     ToastModule,
     DropdownModule,
     CommonModule,
-    CalendarModule
+    CalendarModule,
+    FormsModule
   ],
   templateUrl: './worker-create.component.html',
   styleUrls: ['./worker-create.component.css'],
@@ -35,13 +36,14 @@ export class WorkerCreateComponent {
   user: UserJson = { id: 0, username: '' };
   warehouse: WarehouseJson | null = null;
   statuses: Status[] = [Status.HIRED, Status.FIRED, Status.PENDING, Status.REJECTED];
+  workerIdInput: string = '';
 
   constructor(
-    private fb: FormBuilder,
-    private workerService: WorkerService,
-    private warehouseService: WarehouseService,
-    private authService: AuthService,
-    private messageService: MessageService
+      private fb: FormBuilder,
+      private workerService: WorkerService,
+      private warehouseService: WarehouseService,
+      private authService: AuthService,
+      private messageService: MessageService
   ) {
     this.workerForm = this.fb.group({
       firstName: [null, [Validators.required, Validators.maxLength(100)]],
@@ -60,14 +62,28 @@ export class WorkerCreateComponent {
     const warehouseId = this.workerForm.get('warehouseId')?.value;
     if (warehouseId) {
       this.warehouseService.getById(warehouseId).subscribe(
-        (warehouse) => {
-          this.warehouse = warehouse;
-        },
-        () => {
-          this.warehouse = null;
-        }
+          (warehouse) => {
+            this.warehouse = warehouse;
+          },
+          () => {
+            this.warehouse = null;
+          }
       );
     }
+  }
+
+  onWorkerLoad() {
+    this.workerService.getById(parseInt(this.workerIdInput)).subscribe(worker => {
+      this.workerForm.patchValue({
+        firstName: worker.firstName,
+        lastName: worker.lastName,
+        middleName: worker.middleName,
+        birthDate: new Date(worker.birthDate),
+        hireDate: new Date(worker.hireDate),
+        status: worker.status,
+        warehouseId: worker.warehouse.id
+      });
+    });
   }
 
   onSubmit() {
@@ -89,13 +105,13 @@ export class WorkerCreateComponent {
       };
 
       this.workerService.createWorker(workerData).subscribe(
-        () => {
-          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Рабочий создан!' });
-          this.workerForm.reset();
-        },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать рабочего.' });
-        }
+          () => {
+            this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Рабочий создан!' });
+            this.workerForm.reset();
+          },
+          () => {
+            this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать рабочего.' });
+          }
       );
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Пожалуйста, заполните все обязательные поля.' });
