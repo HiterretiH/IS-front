@@ -1,5 +1,5 @@
 <div id="header" class="ui-widget">
-    <div *ngIf="!isPending()" class="align-left">
+    <div *ngIf="!isUser()" class="align-left">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">Продукты</a>
         <a *ngIf="!isUser()" routerLink="/queues" routerLinkActive="active" class="nav-link">Очереди</a>
         <a *ngIf="!isUser()" routerLink="/sorting-stations" routerLinkActive="active" class="nav-link">Сортировочные станции</a>
