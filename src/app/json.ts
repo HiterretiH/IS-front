@@ -62,6 +62,7 @@ export interface SortingStationJson {
   }
   
   export enum ProductState {
+    PENDING = "PENDING",
     SORTING_TO_STORE = "SORTING_TO_STORE",
     SORTING_TO_SHIP = "SORTING_TO_SHIP",
     STORED = "STORED",
@@ -75,7 +76,7 @@ export interface SortingStationJson {
     location: LocationJson;
     supplier: PartnerJson;
     customer: PartnerJson;
-    queue: QueueJson;
+    queue: QueueJson | null;
     name: string;
     description: string | null;
     expirationDate: string | null;

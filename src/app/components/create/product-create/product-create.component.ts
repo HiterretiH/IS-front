@@ -1,20 +1,19 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule} from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { ProductService } from '../../../services/product.service';
-import { LocationService } from '../../../services/location.service';
-import { PartnerService } from '../../../services/partner.service';
-import { QueueService } from '../../../services/queue.service';
-import { ProductTypeService } from '../../../services/product-type.service';
-import { ProductJson, LocationJson, PartnerJson, QueueJson, ProductTypeJson, ProductState, SortingStationJson } from '../../../json';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { CommonModule } from '@angular/common';
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
-import { InputNumberModule } from 'primeng/inputnumber';
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {ProductService} from '../../../services/product.service';
+import {LocationService} from '../../../services/location.service';
+import {PartnerService} from '../../../services/partner.service';
+import {ProductTypeService} from '../../../services/product-type.service';
+import {LocationJson, PartnerJson, ProductJson, ProductState, ProductTypeJson, SortingStationJson} from '../../../json';
+import {ButtonModule} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {InputTextModule} from 'primeng/inputtext';
+import {ToastModule} from 'primeng/toast';
+import {CommonModule} from '@angular/common';
+import {DropdownModule} from 'primeng/dropdown';
+import {CalendarModule} from 'primeng/calendar';
+import {InputNumberModule} from 'primeng/inputnumber';
 import {SortingStationService} from "../../../services/sorting-station.service";
 
 @Component({
@@ -42,20 +41,16 @@ export class ProductCreateComponent {
   location: LocationJson | null = null;
   supplier: PartnerJson | null = null;
   customer: PartnerJson | null = null;
-  queue: QueueJson | null = null;
   productType: ProductTypeJson | null = null;
   product: ProductJson | null = null;
   sortingStation: SortingStationJson | null = null;
   currentProduct: ProductJson | null = null; // For holding current product if editing
-
-  productStates = Object.values(ProductState);
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private locationService: LocationService,
     private partnerService: PartnerService,
-    private queueService: QueueService,
     private productTypeService: ProductTypeService,
     private messageService: MessageService,
     private sortingStationService: SortingStationService
@@ -66,16 +61,13 @@ export class ProductCreateComponent {
       name: ['', Validators.required],
       description: [''],
       expirationDate: [''],
-      productState: ['', Validators.required],
       priority: [null],
       locationId: [null, Validators.required],
       supplierId: [null, Validators.required],
       customerId: [null, Validators.required],
-      queueId: [null],
       productTypeId: [null, Validators.required]
     });
 
-    // Watch for changes in the form fields related to partners, location, queue, and product type
     this.productForm.get('locationId')?.valueChanges.subscribe(() => {
       this.checkLocation();
     });
@@ -85,12 +77,16 @@ export class ProductCreateComponent {
     this.productForm.get('customerId')?.valueChanges.subscribe(() => {
       this.checkPartner('customer');
     });
-    this.productForm.get('queueId')?.valueChanges.subscribe(() => {
-      this.checkQueue();
-    });
     this.productForm.get('productTypeId')?.valueChanges.subscribe(() => {
       this.checkProductType();
     });
+  }
+
+  isStoredOrSorting() {
+    return this.product?.productState === ProductState.STORED || this.product?.productState === ProductState.SORTING_TO_SHIP;
+  }
+  isPendingOrSorting() {
+    return this.product?.productState === ProductState.PENDING || this.product?.productState === ProductState.SORTING_TO_STORE;
   }
 
   checkLocation() {
@@ -109,16 +105,6 @@ export class ProductCreateComponent {
       this.partnerService.getById(partnerId).subscribe(
           (partner) => type === 'supplier' ? this.supplier = partner : this.customer = partner,
           () => type === 'supplier' ? this.supplier = null : this.customer = null
-      );
-    }
-  }
-
-  checkQueue() {
-    const queueId = this.productForm.get('queueId')?.value;
-    if (queueId) {
-      this.queueService.getById(queueId).subscribe(
-          (queue) => this.queue = queue,
-          () => this.queue = null
       );
     }
   }
@@ -173,7 +159,16 @@ export class ProductCreateComponent {
     if (this.product && this.sortingStation) {
       this.productService.sortToShip(this.product.id, this.sortingStation.id).subscribe(
         () => {
-          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отсортирован для отправки!' });
+          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отправлен на сортировку' });
+          if (this.sortingStation)
+            this.sortingStationService.simulateSort(this.sortingStation.id).subscribe(
+                () => {
+                  this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отправлен' });
+                  this.productForm.reset();
+                },
+                () => {
+                  this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
+                });
           this.productForm.reset();
         },
         () => {
@@ -189,7 +184,16 @@ export class ProductCreateComponent {
     if (this.product && this.sortingStation) {
       this.productService.sortToStore(this.product.id, this.sortingStation.id).subscribe(
         () => {
-          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отсортирован для хранения!' });
+          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт принят на сортировку' });
+          if (this.sortingStation)
+            this.sortingStationService.simulateSort(this.sortingStation.id).subscribe(
+                () => {
+                  this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт принят' });
+                  this.productForm.reset();
+                },
+                () => {
+                  this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
+                });
           this.productForm.reset();
         },
         () => {
@@ -201,11 +205,6 @@ export class ProductCreateComponent {
     }
   }
 
-  setProductPriority() {
-
-  }
-
-  // Load the product for editing using the provided product ID
   onProductLoad() {
     if (this.productIdInput) {
       this.productService.getById(parseInt(this.productIdInput, 10)).subscribe(
@@ -220,14 +219,12 @@ export class ProductCreateComponent {
               locationId: product.location.id,
               supplierId: product.supplier.id,
               customerId: product.customer.id,
-              queueId: product.queue.id,
               productTypeId: product.productType.id
             });
 
             this.location = product.location;
             this.supplier = product.supplier;
             this.customer = product.customer;
-            this.queue = product.queue;
             this.productType = product.productType;
           },
           () => {
@@ -240,28 +237,28 @@ export class ProductCreateComponent {
   // Handle the form submission for creating or updating a product
   onSubmit() {
     if (this.productForm.valid) {
-      if (!this.location || !this.supplier || !this.customer || !this.queue || !this.productType) {
+      if (!this.location || !this.supplier || !this.customer || !this.productType) {
         this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Выберите корректные данные.' });
         return;
       }
 
       const productData: ProductJson = {
-        id: this.currentProduct ? this.currentProduct.id : 0, // Use the existing product ID if editing
+        id: this.currentProduct ? this.currentProduct.id : 0,
         name: this.productForm.value.name,
         description: this.productForm.value.description,
         expirationDate: this.productForm.value.expirationDate,
-        productState: this.productForm.value.productState,
+        productState: ProductState.PENDING,
         priority: this.productForm.value.priority,
         location: this.location,
         supplier: this.supplier,
         customer: this.customer,
-        queue: this.queue,
-        productType: this.productType
+        productType: this.productType,
+        queue: null
       };
 
       const productRequest$ = this.currentProduct
           ? this.productService.updateProduct(productData.id, productData) // Update if editing
-          : this.productService.createProduct(productData); // Create if new
+          : this.productService.createProduct(productData);
 
       productRequest$.subscribe(
           () => {
@@ -270,9 +267,8 @@ export class ProductCreateComponent {
             this.location = null;
             this.supplier = null;
             this.customer = null;
-            this.queue = null;
             this.productType = null;
-            this.currentProduct = null; // Reset the current product object
+            this.currentProduct = null;
           },
           () => {
             this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать или обновить продукт.' });

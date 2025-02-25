@@ -43,7 +43,7 @@ export class SortingStationService {
 
     update(id: number, sortingStation: SortingStationJson): Observable<SortingStationJson> {
         this.authService.updateToken();
-        return this.http.put<SortingStationJson>(`${this.baseUrl}/${id}`, sortingStation, { headers: this.authService.headers });
+        return this.http.put<SortingStationJson>(`${this.baseUrl}/${id}`, sortingStation, { headers: this.headers });
     }
 
     delete(id: number): Observable<void> {
@@ -53,6 +53,6 @@ export class SortingStationService {
 
     simulateSort(id: number): Observable<void> {
         this.authService.updateToken();
-        return this.http.post<void>(`${this.baseUrl}/${id}/simulate-sort`, {headers: this.headers});
+        return this.http.post<void>(`${this.baseUrl}/${id}/simulate-sort`, {}, {headers: this.headers});
     }
 }
