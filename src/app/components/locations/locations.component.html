@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="locations && locations.length > 0" class="container">
+<div *ngIf="locations && locations.length > 0; else empty" class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -11,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let location of locations">
+        <tr *ngFor="let location of locations" (click)="goToLocation(location.id)">
             <td>{{ location.id }}</td>
             <td>{{ location.name }}</td>
             <td>{{ location.description }}</td>
@@ -35,6 +35,8 @@
     </div>
 </div>
 
-<div *ngIf="!loadAll || loadAll.length === 0">
+<ng-template #empty>
     ...
-</div>
+</ng-template>
+
+<app-location-create></app-location-create>

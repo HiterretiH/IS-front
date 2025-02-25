@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {SortingStationService} from "../../services/sorting-station.service";
 import {LocationService} from "../../services/location.service";
+import { LocationCreateComponent } from '../create/location-create/location-create.component';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-locations',
@@ -15,6 +17,7 @@ import {LocationService} from "../../services/location.service";
         HeaderComponent,
         CommonModule,
         FormsModule,
+        LocationCreateComponent
     ]
 })
 export class LocationsComponent implements OnInit {
@@ -24,7 +27,10 @@ export class LocationsComponent implements OnInit {
     pageIndex: number = 0;
     totalPages: number = 1;
 
-    constructor(private locationService: LocationService) {}
+    constructor(
+        private locationService: LocationService,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.loadAll();
@@ -42,6 +48,10 @@ export class LocationsComponent implements OnInit {
             }
         );
     }
+
+    goToLocation(id: number): void {
+        this.router.navigate([`/location/${id}`]);
+      }
 
     nextPage(): void {
         if (this.pageIndex < this.totalPages - 1) {

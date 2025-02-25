@@ -3,6 +3,7 @@ import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {WarehouseService} from "../../services/warehouse.service";
+import { WarehouseCreateComponent } from '../create/warehouse-create/warehouse-create.component';
 
 @Component({
     selector: 'app-warehouses',
@@ -13,6 +14,7 @@ import {WarehouseService} from "../../services/warehouse.service";
         HeaderComponent,
         CommonModule,
         FormsModule,
+        WarehouseCreateComponent
     ]
 })
 export class WarehousesComponent implements OnInit {

@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="warehouses && warehouses.length > 0" class="container">
+<div *ngIf="warehouses && warehouses.length > 0; else empty" class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -33,6 +33,8 @@
     </div>
 </div>
 
-<div *ngIf="!warehouses || warehouses.length === 0">
+<ng-template #empty>
     ...
-</div>
+</ng-template>
+
+<app-warehouse-create></app-warehouse-create>

@@ -6,6 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {SortingStationService} from "../../services/sorting-station.service";
 import {LocationService} from "../../services/location.service";
 import {PartnerService} from "../../services/partner.service";
+import { PartnerCreateComponent } from '../create/partner-create/partner-create.component';
 
 @Component({
     selector: 'app-partners',
@@ -16,6 +17,7 @@ import {PartnerService} from "../../services/partner.service";
         HeaderComponent,
         CommonModule,
         FormsModule,
+        PartnerCreateComponent
     ]
 })
 export class PartnersComponent implements OnInit {

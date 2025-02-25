@@ -24,19 +24,22 @@ export class LocationService {
 
   getById(id: number): Observable<LocationJson> {
     this.authService.updateToken();
-    return this.http.get<LocationJson>(`${this.baseUrl}/get/${id}`, { headers: this.authService.headers });
+    return this.http.get<LocationJson>(`${this.baseUrl}/${id}`, { headers: this.authService.headers });
   }
 
-    getAll(page: number, size: number): Observable<{data: any[], total: number}> {
-        const params = new HttpParams()
-            .set('page', page.toString())
-            .set('size', size.toString());
+  getAll(page: number, size: number): Observable<{data: any[], total: number}> {
+    this.authService.updateToken();
+    
+      const params = new HttpParams()
+          .set('page', page.toString())
+          .set('size', size.toString());
 
-        return this.http.get<{data: any[], total: number}>(this.baseUrl, {
-            params,
-            headers: this.headers
-        });
-    }
+      return this.http.get<{data: any[], total: number}>(this.baseUrl, {
+          params,
+          headers: this.headers
+      });
+  }
+  
   createLocation(location: LocationJson): Observable<LocationJson> {
     this.authService.updateToken();
     return this.http.post<LocationJson>(`${this.baseUrl}`, location, { headers: this.authService.headers });

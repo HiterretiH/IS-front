@@ -4,6 +4,7 @@ import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {SortingStationService} from "../../services/sorting-station.service";
+import { SortingStationCreateComponent } from '../create/sorting-station-create/sorting-station-create.component';
 
 @Component({
   selector: 'app-sorting-stations',
@@ -14,6 +15,7 @@ import {SortingStationService} from "../../services/sorting-station.service";
     HeaderComponent,
     CommonModule,
     FormsModule,
+    SortingStationCreateComponent
   ]
 })
 export class SortingStationsComponent implements OnInit {

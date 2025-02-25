@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="partners && partners.length > 0" class="container">
+<div *ngIf="partners && partners.length > 0; else empty" class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -37,6 +37,8 @@
     </div>
 </div>
 
-<div *ngIf="!loadAll || loadAll.length === 0">
+<ng-template #empty>
     ...
-</div>
+</ng-template>
+
+<app-partner-create></app-partner-create>

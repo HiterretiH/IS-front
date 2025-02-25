@@ -49,6 +49,7 @@ export class LocationCreateComponent {
   onSubmit() {
     if (this.locationForm.valid) {
       const locationData: LocationJson = {
+        id: 0,
         name: this.locationForm.value.name,
         description: this.locationForm.value.description,
         locationRow: this.locationForm.value.locationRow

@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="queues && queues.length > 0" class="container">
+<div *ngIf="queues && queues.length > 0; else empty" class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -33,6 +33,6 @@
     </div>
 </div>
 
-<div *ngIf="!queues || queues.length === 0">
+<ng-template #empty>
     ...
-</div>
+</ng-template>

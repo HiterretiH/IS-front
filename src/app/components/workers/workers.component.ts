@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {SortingStationService} from "../../services/sorting-station.service";
 import {WorkerService} from "../../services/worker.service";
+import { WorkerCreateComponent } from '../create/worker-create/worker-create.component';
 
 @Component({
     selector: 'app-workers',
@@ -15,6 +16,7 @@ import {WorkerService} from "../../services/worker.service";
         HeaderComponent,
         CommonModule,
         FormsModule,
+        WorkerCreateComponent
     ]
 })
 export class WorkersComponent implements OnInit {

@@ -10,21 +10,28 @@ import { AuthService } from "./auth.service";
 export class ProductService {
     private baseUrl = `${environment.apiUrl}/products`;
 
-    constructor(private http: HttpClient, private authService: AuthService) {}
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
     private get headers() {
         this.authService.updateToken();
         return this.authService.headers;
     }
 
-    getProducts(page: number, size: number): Observable<{data: any[], total: number}> {
+    getProducts(page: number, size: number): Observable<{ data: any[], total: number }> {
+        this.authService.updateToken();
+        
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
 
-        return this.http.get<{data: any[], total: number}>(this.baseUrl, {
+        return this.http.get<{ data: any[], total: number }>(this.baseUrl, {
             params,
             headers: this.headers
         });
     }
+
+    createProduct(product: any): Observable<any> {
+        this.authService.updateToken();
+        return this.http.post<any>(`${this.baseUrl}`, product);
+      }
 }

@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div *ngIf="products && products.length > 0" class="container">
+<div *ngIf="products && products.length > 0; else empty" class="container">
     <table class="styled-table">
         <thead>
         <tr>
@@ -49,6 +49,6 @@
     </div>
 </div>
 
-<div *ngIf="!products || products.length === 0">
+<ng-template #empty>
     ...
-</div>
+</ng-template>

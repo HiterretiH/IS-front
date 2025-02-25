@@ -1,0 +1,46 @@
+<p-toast></p-toast>
+
+<div id="form-container" class="p-card">
+  <p-card header="Создание нового партнера">
+    <form [formGroup]="partnerForm" (ngSubmit)="onSubmit()">
+      
+      <div class="p-field">
+        <label for="name">Название</label>
+        <br/>
+        <input id="name" pInputText formControlName="name" />
+        <br/>
+        <div *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="p-error">
+          Название обязательно
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="email">Email</label>
+        <br/>
+        <input id="email" pInputText formControlName="email" />
+        <br/>
+        <div *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)" class="p-error">
+          Введите корректный email
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="phoneNumber">Телефон</label>
+        <br/>
+        <input id="phoneNumber" pInputText formControlName="phoneNumber" />
+        <br/>
+        <div *ngIf="f.phoneNumber.invalid && (f.phoneNumber.dirty || f.phoneNumber.touched)" class="p-error">
+          Телефон обязателен
+        </div>
+      </div>
+
+      <div class="p-field">
+        <label for="address">Адрес</label>
+        <br/>
+        <textarea id="address" pInputText formControlName="address"></textarea>
+      </div>
+
+      <p-button label="Создать" type="submit" [disabled]="partnerForm.invalid"></p-button>
+    </form>
+  </p-card>
+</div>

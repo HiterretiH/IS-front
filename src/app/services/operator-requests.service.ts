@@ -26,40 +26,49 @@ export class OperatorRequestsService {
   }
 
   getAll(): Observable<OperatorRequest[]> {
+    this.authService.updateToken();
     return this.http.get<OperatorRequest[]>(this.baseUrl, {headers: this.headers});
   }
 
   getAllMine(id: number): Observable<OperatorRequest[]> {
+    this.authService.updateToken();
     return this.http.get<OperatorRequest[]>(`${this.baseUrl}/mine/${id}`, {headers: this.headers});
   }
 
   getById(id: number): Observable<OperatorRequest> {
+    this.authService.updateToken();
     return this.http.get<OperatorRequest>(`${this.baseUrl}/${id}`, {headers: this.headers});
   }
 
   getByUsername(username: string): Observable<OperatorRequest> {
+    this.authService.updateToken();
     return this.http.get<OperatorRequest>(`${this.baseUrl}/by-username?username=${username}`, {headers: this.headers});
   }
 
   create(id: string): Observable<string> {
+    this.authService.updateToken();
     return this.http.post<string>(`${this.baseUrl}/${parseInt(id)}`, {
       headers: this.headers
     });
   }
 
   update(id: number, request: OperatorRequest): Observable<OperatorRequest> {
+    this.authService.updateToken();
     return this.http.put<OperatorRequest>(`${this.baseUrl}/${id}`, request, {headers: this.headers});
   }
 
   delete(id: number): Observable<void> {
+    this.authService.updateToken();
     return this.http.delete<void>(`${this.baseUrl}/${id}`, {headers: this.headers});
   }
 
   getAllPending(): Observable<OperatorRequest[]> {
+    this.authService.updateToken();
     return this.http.get<OperatorRequest[]>(`${this.baseUrl}/pending`, {headers: this.headers});
   }
 
   approve(id: number, productTypeId: number): Observable<ArrayBuffer> {
+    this.authService.updateToken();
     const params = new HttpParams().set('productTypeId', productTypeId.toString());
     return this.http.put<ArrayBuffer>(`${this.baseUrl}/${id}/approve`, null, {
       params,
@@ -68,6 +77,7 @@ export class OperatorRequestsService {
   }
 
   reject(id: number): Observable<OperatorRequest> {
+    this.authService.updateToken();
     return this.http.put<OperatorRequest>(`${this.baseUrl}/${id}/reject`, {}, {headers: this.headers});
   }
 }

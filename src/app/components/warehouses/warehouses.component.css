@@ -25,12 +25,15 @@
     border-bottom: 1px solid #dddddd;
 }
 
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+.styled-table tbody tr {
+    background-color: white;
+    color: black
 }
 
 .styled-table tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: var(--highlight-bg);
+    color: var(--highlight-text-color);
+    cursor: pointer;
 }
 
 .styled-table th {

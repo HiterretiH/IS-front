@@ -23,6 +23,8 @@ export class ProductTypeService {
     }
 
     getProductTypes(page: number, size: number): Observable<{data: any[], total: number}> {
+        this.authService.updateToken();
+        
         const params = new HttpParams()
             .set('page', page.toString())
             .set('size', size.toString());
