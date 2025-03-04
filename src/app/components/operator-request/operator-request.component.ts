@@ -53,7 +53,6 @@ export class OperatorRequestComponent implements OnInit{
         this.loadRequests();
       },
       error: (error) => {
-        console.log(error);
         this.errorMessage = 'Ошибка при отправке запроса. Попробуйте позже.';
         this.isRequestSent = false;
       }

@@ -229,6 +229,7 @@ export class ProductCreateComponent implements OnInit {
           this.productForm.reset();
         },
           (errorResponse) => {
+            console.log(errorResponse.status);
             if (errorResponse.status === 409) {
               const errorMessage = errorResponse.error?.detail || 'Не удалось отсортировать продукт для хранения, проверьте вместимость сортировочной станции.';
               this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: errorMessage });
