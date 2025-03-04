@@ -183,27 +183,34 @@ export class ProductCreateComponent implements OnInit {
   sortToShip() {
     if (this.product && this.sortingStation) {
       this.productService.sortToShip(this.product.id, this.sortingStation.id).subscribe(
-        () => {
-          this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отправлен на сортировку' });
-          if (this.sortingStation)
-            this.sortingStationService.simulateSort(this.sortingStation.id).subscribe(
-                () => {
-                  this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отправлен' });
-                  this.productForm.reset();
-                },
-                () => {
-                  this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
-                });
-          this.productForm.reset();
-        },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для отправки.' });
-        }
+          () => {
+            this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отправлен на сортировку' });
+            if (this.sortingStation)
+              this.sortingStationService.simulateSort(this.sortingStation.id).subscribe(
+                  () => {
+                    this.messageService.add({ severity: 'success', summary: 'Успех', detail: 'Продукт отправлен' });
+                    this.productForm.reset();
+                  },
+                  () => {
+                    this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
+                  }
+              );
+            this.productForm.reset();
+          },
+          (errorResponse) => {
+            if (errorResponse.status === 409) {
+              const errorMessage = errorResponse.error?.detail || 'Не удалось отсортировать продукт для отправки, проверьте вместимость сортировочной станции.';
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: errorMessage });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для отправки.' });
+            }
+          }
       );
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Выберите продукт и пункт отправки.' });
     }
   }
+
 
   sortToStore() {
     if (this.product && this.sortingStation) {
@@ -221,17 +228,18 @@ export class ProductCreateComponent implements OnInit {
                 });
           this.productForm.reset();
         },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
-        }
+          (errorResponse) => {
+            if (errorResponse.status === 409) {
+              const errorMessage = errorResponse.error?.detail || 'Не удалось отсортировать продукт для хранения, проверьте вместимость сортировочной станции.';
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: errorMessage });
+            } else {
+              this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: 'Не удалось отсортировать продукт для хранения.' });
+            }
+          }
       );
     } else {
       this.messageService.add({ severity: 'warn', summary: 'Ошибка', detail: 'Выберите продукт и пункт хранения.' });
     }
-  }
-
-  setProductPriority() {
-
   }
 
   onProductLoad() {
